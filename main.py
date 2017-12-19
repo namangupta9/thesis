@@ -38,7 +38,7 @@ def main(season_in) :
 
     # # Search & Export Volume Data (Needs to be done after match data scraped!)
     # trends_scraper.scrape_volume_data(season_in, "matchday", teams)
-    # trends_scraper.scrape_volume_data(season_in, "match", teams)
+    trends_scraper.scrape_volume_data(season_in, "match", teams)
     # trends_scraper.scrape_volume_data(season_in, "matchweekend", teams)
 
     print "Finished Execution."

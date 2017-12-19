@@ -5,6 +5,7 @@ import sqlite3
 import anymarkup
 import csv
 import os
+import datetime
 
 print "-----------------------------------------------"
 print "Senior Thesis - Google Trends Script"
@@ -83,8 +84,9 @@ class Club :
         self.api_name = api_name_in
         self.keywords = keywords_in
 
+
 # HELPER FUNCTION IMPLEMENTATIONS
-def get_api_ids(db ,teams):
+def get_api_ids(db, teams):
 
     # Loop Through All EPL Teams
     for team in teams:
@@ -317,6 +319,24 @@ def assign_timestamps(mode_in, fixture_list_in):
             date_timestamp = str(fixture.date) + "T01 " + str(fixture.date) + "T23"
             trends_timestamps.append(date_timestamp)
 
+    if (mode_in == "match"):
+        for fixture in fixture_list_in:
+
+            start = int(fixture.time[:2]) - 2
+            end = int(fixture.time[:2]) + 4
+
+            date_timestamp = str(fixture.date) + "T" + str(start) + " " + str(fixture.date) + "T" + str(end)
+
+            # Edge Case: Switch to Next Day T0 if at T24
+            if (end == 24):
+
+                og_date = datetime.datetime.strptime(str(fixture.date), "%Y-%m-%d")
+                new_date = og_date + datetime.timedelta(days=1)
+
+                date_timestamp = str(fixture.date) + "T" + str(start) + " " + str(new_date)[:10] + "T0"
+
+            trends_timestamps.append(date_timestamp)
+
     return trends_timestamps
 
 
@@ -350,8 +370,7 @@ def scrape_volume_data(season_in, mode_in, teams):
         api_fixture_list = assign_timestamps(mode_in, team.fixtures)
         counter = 0
         for fixture in api_fixture_list:
-            single_kws = [team.keywords[0]]
-            pytrend.build_payload(kw_list=single_kws, timeframe=fixture)
+            pytrend.build_payload(kw_list=team.keywords, timeframe=fixture)
             interest_over_time_df = pytrend.interest_over_time()
             dataframes.append(interest_over_time_df)
             counter += 1
@@ -362,7 +381,7 @@ def scrape_volume_data(season_in, mode_in, teams):
         season_df = pd.concat(dataframes)
 
         # Export Team's Data to CSV
-        filename = str(team.file_name) + "_" + str(mode_in) + "_" + str(season_in[5:]) + "_fullname.csv"
+        filename = str(team.file_name) + "_" + str(mode_in) + "_" + str(season_in[5:]) + ".csv"
         season_df.to_csv(filename)
 
         print "Exported " + str(team.file_name) + " Data" + "\n"
