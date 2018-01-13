@@ -14,8 +14,8 @@ Understanding how various match events in the English Premier League and affect 
 Coming Soon.
 
 ## Interactive Visualizations
-
-Full Website Coming Soon. Sample Output:
+Interactive Coming Soon.
+Sample: Chelsea / Swansea, 08.08.2015
 ![Sample Match](img/charting.png)
 
 ## Authors
