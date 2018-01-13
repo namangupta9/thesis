@@ -30,10 +30,10 @@ def get_club_dropdowns():
     return dropdowns
 
 
-# css
-app.css.append_css({
-        "external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"
-        })
+# css; use rawgit.com to serve raw files directly from github repo
+# dash only allows the usage of externally-hosted css & javascript for now
+my_css_url = "https://rawgit.com/namangupta9/thesis/master/viz_css.css"
+app.css.append_css({"external_url": my_css_url})
 
 # generate html layout
 app.layout = html.Div(children=[
@@ -50,7 +50,6 @@ app.layout = html.Div(children=[
         dcc.Dropdown(
             id='club-dropdown',
             options=get_club_dropdowns(),
-            value='Select Club'
         ),
     ], style={'width': '500'}),
 
@@ -62,24 +61,7 @@ app.layout = html.Div(children=[
     ], style={'width': '500'}),
 
     # graph to display match chart
-    dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': [
-                {'x': [1, 2, 3],
-                 'y': [4, 1, 2],
-                 'type': 'bar',
-                 'name': 'SF'},
-                {'x': [1, 2, 3],
-                 'y': [2, 4, 5],
-                 'type': 'bar',
-                 'name': u'Montreal'},
-                 ],
-            'layout': {
-                'title': 'Dash Data Visualization'
-                }
-            }
-        )
+    dcc.Graph()
     ]
 )
 
@@ -103,17 +85,17 @@ def get_match_dropdowns(input_value):
     return dropdowns
 
 
-@app.callback(Output('match-chart', 'figure'),
-              [Input('club-dropdown', 'value'),
-               Input('match-dropdown', 'value')])
-def get_match_chart(club_dropdown, match_dropdown):
-    """Plot a figure based on the selected club & match."""
-
-    # load search volume data frame & select relevant area TODO
-
-    # load match information data frame & select relevant area TODO
-
-    # using search volume & match information data, plot! TODO
+# @app.callback(Output('match-chart', 'figure'),
+#               [Input('club-dropdown', 'value'),
+#                Input('match-dropdown', 'value')])
+# def get_match_chart(club_dropdown, match_dropdown):
+#     """Plot a figure based on the selected club & match."""
+#
+#     # load search volume data frame & select relevant area TODO
+#
+#     # load match information data frame & select relevant area TODO
+#
+#     # using search volume & match information data, plot! TODO
 
 
 # execution
