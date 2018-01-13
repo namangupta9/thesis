@@ -4,6 +4,7 @@
 # namangupta.co
 # 2018
 
+import sys
 import pandas as pd
 from ast import literal_eval
 from viz_helpers import get_club_dropdowns
@@ -37,27 +38,31 @@ app.layout = html.Div(children=[
         normalized Google search activity?''', id="description"),
 
     # dropdown to select club
-    html.Div([
-        dcc.Dropdown(
-            id='club-dropdown',
-            options=get_club_dropdowns(),
-            value="Chelsea"
-        ),
-    ], style={'width': '500'}),
+    html.Div([html.Span(id="label", children="select club   "),
+             html.Span(dcc.Dropdown(id='club-dropdown',
+                                    value="chelsea",
+                                    placeholder="select",
+                                    clearable=False,
+                                    searchable=False,
+                                    options=get_club_dropdowns()))],
+             id="club_box"),
 
     # another dropdown to select match from club's fixture list
-    html.Div([
-        dcc.Dropdown(
-            id='match-dropdown',
-            ),
-    ], style={'width': '500'}),
+    html.Div([html.Span(id="label", children="select fixture"),
+             html.Span(dcc.Dropdown(id='match-dropdown',
+                                    value="2015-08-08",
+                                    placeholder="select",
+                                    clearable=False,
+                                    searchable=False,
+                                    ),)],
+
+             id="fixture_box"),
 
     # graph to display match chart
     html.Div([
         dcc.Graph(
-            id='match-chart',
-            ),
-    ], style={'width': '500'})]
+            id='match-chart', )
+            ])]
 )
 
 
@@ -86,10 +91,16 @@ def get_match_dropdowns(input_value):
 def get_match_chart(club_dropdown, match_dropdown):
     """Plot a figure based on the selected club & match."""
     # load search volume & match information data frames
-    search_file = club_dropdown + "_match_2016.csv"
+    search_file = club_dropdown + "_matchday_2016.csv"
     info_file = club_dropdown + "_matches_2016.csv"
     search_df = pd.read_csv("Matchday Volumes/" + search_file)
     info_df = pd.read_csv("Match Information/" + info_file)
+
+    # for debugging purposes
+    sys.stderr.write("Club Dropdown: " + club_dropdown + '\n')
+    sys.stderr.write("Match Dropdown: " + match_dropdown + '\n')
+    sys.stderr.write("Search File: " + search_file + '\n')
+    sys.stderr.write("Info File: " + info_file + '\n')
 
     # some preliminary data formatting
     search_df['time'] = search_df.apply(lambda row: row.date[-8:], axis=1)
@@ -115,14 +126,22 @@ def get_match_chart(club_dropdown, match_dropdown):
     # using search volume & match information data, plot!
     layout = go.Layout(
         xaxis=dict(showgrid=True, zeroline=False, showline=True),
-        yaxis=dict(showgrid=True, zeroline=False, showline=True),
-        shapes=get_match_event_lines(info_df, match_dropdown)
+        yaxis=dict(showgrid=True, zeroline=False,
+                   showline=True, range=[0, 100]),
+        shapes=get_match_event_lines(info_df, match_dropdown),
+        font=dict(family='Helvetica', size=12, color='#7f7f7f'),
+        margin=go.Margin(r=50,
+                         b=100,
+                         t=100,
+                         pad=4),
     )
 
+    sys.stderr.write("PLOTTING SEARCH DATA.." + '\n')
     fig = plotly.graph_objs.Figure(data=get_relevant_data(search_df,
                                                           match_dropdown),
                                    layout=layout)
-    plotly.offline.iplot(fig)
+
+    return fig
 
 
 # execution

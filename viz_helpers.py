@@ -5,6 +5,7 @@
 # 2018
 
 import plotly.graph_objs as go
+import sys
 
 
 def get_club_dropdowns():
@@ -49,13 +50,17 @@ def get_match_event_lines(match_info_df, m_drop):
     lines = []
 
     # relevant_match_info
-    relevant_match_info = match_info_df.iloc[match_info_df["date"] == m_drop]
+    relevant_match_info = match_info_df[match_info_df["date"] == m_drop]
+
+    # for debugging purposes
+    sys.stderr.write("GETTING MATCH EVENTS:" + '\n')
 
     # kickoff time & estimated end time
     # end time estimated as:
     # (kickoff + 90' + 6' est. total stoppage time + 15' Halftime)
     #  / 8 (graph scale)
-    kt = relevant_match_info["kickoff_time"]
+    sys.stderr.write("..GETTING KICKOFF TIME" + '\n')
+    kt = relevant_match_info["kickoff_time"].iloc[0]
     kt_float = float((int(kt[0:2]) * 60) + (int(kt[3:5])) - 64) / 8
     lines.append({
             'type': 'rect',
@@ -69,7 +74,8 @@ def get_match_event_lines(match_info_df, m_drop):
             })
 
     # home goals
-    for goal in relevant_match_info["home_goals"]:
+    sys.stderr.write("..GETTING HOME GOALS" + '\n')
+    for goal in relevant_match_info["home_goals"].iloc[0]:
         hg_float = float((int(goal[0:2]) * 60) + (int(goal[3:5])) - 64) / 8
         lines.append({
                 'type': 'line',
@@ -83,7 +89,8 @@ def get_match_event_lines(match_info_df, m_drop):
                 })
 
     # away goals
-    for goal in relevant_match_info["away_goals"]:
+    sys.stderr.write("..GETTING AWAY GOALS" + '\n')
+    for goal in relevant_match_info["away_goals"].iloc[0]:
         ag_float = float((int(goal[0:2]) * 60) + (int(goal[3:5])) - 64) / 8
         lines.append({
                 'type': 'line',
@@ -97,7 +104,8 @@ def get_match_event_lines(match_info_df, m_drop):
                 })
 
     # home red cards
-    for card in relevant_match_info["home_reds"]:
+    sys.stderr.write("..GETTING HOME REDS" + '\n')
+    for card in relevant_match_info["home_reds"].iloc[0]:
         hr_float = float((int(card[0:2]) * 60) + (int(card[3:5])) - 64) / 8
         lines.append({
                 'type': 'line',
@@ -111,7 +119,8 @@ def get_match_event_lines(match_info_df, m_drop):
                 })
 
     # home yellow cards
-    for card in relevant_match_info["home_yellows"]:
+    sys.stderr.write("..GETTING HOME YELLOWS" + '\n')
+    for card in relevant_match_info["home_yellows"].iloc[0]:
         hy_float = float((int(card[0:2]) * 60) + (int(card[3:5])) - 64) / 8
         lines.append({
                 'type': 'line',
@@ -125,7 +134,8 @@ def get_match_event_lines(match_info_df, m_drop):
                 })
 
     # away red cards
-    for card in relevant_match_info["away_reds"]:
+    sys.stderr.write("..GETTING AWAY REDS" + '\n')
+    for card in relevant_match_info["away_reds"].iloc[0]:
         ar_float = float((int(card[0:2]) * 60) + (int(card[3:5])) - 64) / 8
         lines.append({
                 'type': 'line',
@@ -139,7 +149,8 @@ def get_match_event_lines(match_info_df, m_drop):
                 })
 
     # away yellow cards
-    for card in relevant_match_info["away_yellows"]:
+    sys.stderr.write("..GETTING AWAY YELLOWS" + '\n')
+    for card in relevant_match_info["away_yellows"].iloc[0]:
         ay_float = float((int(card[0:2]) * 60) + (int(card[3:5])) - 64) / 8
         lines.append({
                 'type': 'line',
