@@ -1,0 +1,20 @@
+afc_bournemouth, Bournemouth, Association Football Club Bournemouth, Bournemouth
+arsenal, Arsenal, Arsenal Football Club, Arsenal
+aston_villa, Aston Villa, Aston Villa Football Club, Aston Villa
+chelsea, Chelsea, Chelsea Football Club, Chelsea
+crystal_palace, Crystal Palace, Crystal Palace Football Club, Crystal Palace
+everton, Everton, Everton Football Club, Everton
+leicester_city, Leicester, Leicester City Football Club, Leicester City
+liverpool, Liverpool, Liverpool Football Club, Liverpool
+manchester_city, Manchester City, Manchester City Football Club, Man City
+manchester_united, Manchester United, Manchester United Football Clubs, Man United
+newcastle_united, Newcastle United, Newcastle United Football Club, Newcastle
+norwich_city, Norwich, Norwich City Football Club, Norwich City
+southampton, Southampton, Southampton Football Club, Southampton
+stoke_city, Stoke, Stoke City Football Club, Stoke City
+sunderland, Sunderland, Sunderland Football Club, Sunderland
+swansea_city, Swansea, Swansea City Football Club, Swansea City
+tottenham, Tottenham, Tottenham Hotspur Football Club, Tottenham
+watford, Watford, Watford Football Club, Watford
+west_brom, West Bromwich Albion, West Bromwich Albion Football Club, West Brom
+west_ham, West Ham, West Ham Football Club, West Ham
