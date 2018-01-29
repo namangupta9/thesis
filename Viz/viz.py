@@ -108,20 +108,13 @@ def get_match_chart(club_dropdown, match_dropdown):
     search_df = search_df[search_df.time != "00:00:00"]
 
     # format match event timestamps
-    info_df["away_goals"] = info_df["away_goals"].apply(
-                            lambda x: literal_eval(x))
-    info_df["home_goals"] = info_df["home_goals"].apply(
-                            lambda x: literal_eval(x))
-    info_df["disallowed_goals"] = info_df["disallowed_goals"].apply(
-                                  lambda x: literal_eval(x))
-    info_df["home_reds"] = info_df["home_reds"].apply(
-                           lambda x: literal_eval(x))
-    info_df["away_reds"] = info_df["away_reds"].apply(
-                           lambda x: literal_eval(x))
-    info_df["home_yellows"] = info_df["home_yellows"].apply(
-                              lambda x: literal_eval(x))
-    info_df["away_yellows"] = info_df["away_yellows"].apply(
-                              lambda x: literal_eval(x))
+    info_df["away_goals"] = info_df["away_goals"].apply(lambda x: literal_eval(x))
+    info_df["home_goals"] = info_df["home_goals"].apply(lambda x: literal_eval(x))
+    info_df["disallowed_goals"] = info_df["disallowed_goals"].apply(lambda x: literal_eval(x))
+    info_df["home_reds"] = info_df["home_reds"].apply(lambda x: literal_eval(x))
+    info_df["away_reds"] = info_df["away_reds"].apply(lambda x: literal_eval(x))
+    info_df["home_yellows"] = info_df["home_yellows"].apply(lambda x: literal_eval(x))
+    info_df["away_yellows"] = info_df["away_yellows"].apply(lambda x: literal_eval(x))
 
     # using search volume & match information data, plot!
     layout = go.Layout(
