@@ -3,71 +3,47 @@
 import pandas as pd
 import datetime
 from ast import literal_eval
-
-# Useful: http://www.theanalysisfactor.com/wide-and-long-data/
-
-
-def mark_events(home_goals, away_goals, home_yellows,
-                away_yellows, home_reds, away_reds, df):
-    """Mark events as they occur in a match in the long-form data table."""
-
-    pd.options.mode.chained_assignment = None  # default='warn'
-
-    # iterate through list of event type
-    # for each event, pick out the row which contains the occurence of that match event
-    # set that row's event value to be 1 instead of 0
-
-    for goal in home_goals:
-        idx = df["home_goal"].loc[df.index >= str(goal)].index[0]
-        df["home_goal"].loc[idx] = 1
-
-    for goal in away_goals:
-        idx = df["away_goal"].loc[df.index >= str(goal)].index[0]
-        df["away_goal"].loc[idx] = 1
-
-    for card in home_yellows:
-        idx = df["home_yellow"].loc[df.index >= str(card)].index[0]
-        df["home_yellow"].loc[idx] = 1
-
-    for card in away_yellows:
-        idx = df["away_yellow"].loc[df.index >= str(card)].index[0]
-        df["away_yellow"].loc[idx] = 1
-
-    for card in home_reds:
-        idx = df["home_red"].loc[df.index >= str(card)].index[0]
-        df["home_red"].loc[idx] = 1
-
-    for card in away_reds:
-        idx = df["away_red"].loc[df.index >= str(card)].index[0]
-        df["away_red"].loc[idx] = 1
-
-    return df
+from longform_helpers import mark_events, adjust_for_stages
 
 
-def get_match_info(club_in, match_df, match_id):
-    """Gather match information for every 4 mins (as per search data freq.)."""
+def get_match_info(club_in, match_df, match_id, date):
+    """
+    Feature Engineering.
+
+    What could explain search vol differences? Indicate them in df.
+
+    Need to be backwards-looking features; when watching a football match,
+    fans don't know what the future outcome or events will be. Hence, all
+    these features need to be known to the fan at the time that the feature
+    is indicated in the model.
+
+    For example, can't include "Total Goals" since fans don't know that info
+    as they're watching / searching the match live. A cumulative measure would
+    be more appropriate - how many scored 'until this point'?
+
+    Also important not to be too specific, to avoid overfitting risk.
+
+    Selected Features:
+    - Home & Away Goal Timing
+    - Home & Away Booking Timing
+    - Competitive Index of Match (|Away Win Odds - Home Win Odds|)
+    - Cumulative Total Goals (Self explanatory)
+    - Cumulative Goal Differential (How "close" is the match?)
+    - Man down? (There's been at least 1 red card)
+    - Match Week (Might affect buildup & match importance)
+    - Upset In Progress? (Club w/ Lower Winning Odds is Actually Winning)
+
+    """
 
     # get relevant match information
     match_info = pd.read_csv("../../Match Information/"
                              + club_in + "_matches_2016.csv")
-    match_info = match_info[match_info["date"] == match_df['date'].iloc[0]]
-    match_df = match_df.set_index(['time'])
-
-    # remove fullname if necessary; we don't care about this
-    if len(match_df.columns) == 4:
-        match_df = match_df.drop(match_df.columns[1], axis=1)
-
-    # delete the isPartial column, and the date can also go away (redundant once we have match id)
-    del match_df["isPartial"]
-    del match_df["date"]
+    match_info = match_info[match_info["date"] == date]
 
     # rename the search volume column header to be non team-specific
-    old_name = match_df.columns[-1]
+    old_name = match_df.columns[-8]
     rename_dict = {old_name:"shorthand_search_vol"}
     match_df = match_df.rename(columns=rename_dict)
-
-    # create column for match_id, fill with match_id parameter
-    match_df["match_id"] = match_id
 
     # create a column for each type of match event; default value is 0
     match_df["home_goal"] = 0
@@ -104,13 +80,15 @@ def get_match_info(club_in, match_df, match_id):
 
     # finalize the order of the columns & return
     col_order = ["match_id", "shorthand_search_vol", "home_goal", "away_goal",
-                 "home_yellow", "away_yellow", "home_red", "away_red"]
+                 "home_yellow", "away_yellow", "home_red", "away_red",
+                 "stage_0_ind", "stage_1_ind", "stage_2_ind", "stage_3_ind",
+                 "stage_4_ind", "competitive_idx"]
+
     match_df = match_df[col_order]
     return match_df
 
 
 def get_club_info(club_in):
-    """Run baseline calculations for a given club; wide form data out."""
     # get relevant files as data frames
     search_vol = pd.read_csv("../../Matchday Volumes/"
                              + club_in + "_matchday_2016.csv")
@@ -124,11 +102,17 @@ def get_club_info(club_in):
     for match, match_df in search_vol.groupby('date'):
 
         # for each match, generate a unique identifer: club_match
-        match_id = str(club_in) + str(match_df['date'].iloc[0])
+        date = match_df['date'].iloc[0]
+        match_id = str(club_in) + str(date)
+
+        # use match_id to find appropriate time range for analysis
+        # as well as indicate stages in data frame (dummy vars)
+        match_df = adjust_for_stages(match_id, match_df)
 
         # for each match, gather and organize information
-        result_df = get_match_info(club_in, match_df, match_id)
+        result_df = get_match_info(club_in, match_df, match_id, date)
         match_results.append(result_df)
+
 
     # create & merge data frame from collection of individual data frames
     df = pd.concat(match_results)
@@ -149,6 +133,3 @@ if __name__ == "__main__":
     df = pd.concat(teams)
     df.to_csv("longform.csv")
     print "Exported: longform.csv"
-
-    # TODO
-    # this file is so damn long...can we shorten it? maybe not get the entire day's data?
