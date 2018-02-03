@@ -6,7 +6,7 @@ from ast import literal_eval
 from longform_helpers import mark_events, adjust_for_stages
 
 
-def get_match_info(club_in, match_df, match_id, date):
+def get_match_info(club_in, match_df, match_id, date, match_wk):
     """
     Feature Engineering.
 
@@ -26,12 +26,12 @@ def get_match_info(club_in, match_df, match_id, date):
     Selected Features:
     - Home & Away Goal Timing
     - Home & Away Booking Timing
+    - TODO Match Week (Might affect buildup & match importance)
     - Competitive Index of Match (|Away Win Odds - Home Win Odds|)
-    - Cumulative Total Goals (Self explanatory)
-    - Cumulative Goal Differential (How "close" is the match?)
-    - Man down? (There's been at least 1 red card)
-    - Match Week (Might affect buildup & match importance)
-    - Upset In Progress? (Club w/ Lower Winning Odds is Actually Winning)
+    - TODO Cumulative Total Goals (Self explanatory)
+    - TODO Cumulative Goal Differential (How "close" is the match?)
+    - TODO Man Down? (There's been at least 1 red card)
+    - TODO Upset In Progress? (Club w/ Lower Winning Odds is Actually Winning)
 
     """
 
@@ -78,11 +78,31 @@ def get_match_info(club_in, match_df, match_id, date):
                            away_reds_actual,
                            match_df)
 
+
+    # cumulative total goals
+    # for each goal scored, go find the index, and increment everything afterwards by +1
+    match_df["cum_total_goals"] = 0
+
+    # cumulative goal differential
+    match_df["cum_goal_diff"] = 0
+
+    # man down
+    # if red card, go find first one's index, and increment everything afterwards by +1
+    match_df["man_down"] = 0
+
+    # match week
+    match_df["match_wk"] = match_wk
+
+    # upset in progress; going to have to figure out logic here...s
+    match_df["upset_in_progress"] = 0
+
     # finalize the order of the columns & return
     col_order = ["match_id", "shorthand_search_vol", "home_goal", "away_goal",
                  "home_yellow", "away_yellow", "home_red", "away_red",
                  "stage_0_ind", "stage_1_ind", "stage_2_ind", "stage_3_ind",
-                 "stage_4_ind", "competitive_idx"]
+                 "stage_4_ind", "match_wk", "competitive_idx",
+                 "cum_total_goals", "cum_goal_diff", "man_down",
+                 "upset_in_progress"]
 
     match_df = match_df[col_order]
     return match_df
@@ -99,6 +119,7 @@ def get_club_info(club_in):
     match_results = []
 
     # iterate through all 20 matches
+    match_wk = 0
     for match, match_df in search_vol.groupby('date'):
 
         # for each match, generate a unique identifer: club_match
@@ -110,8 +131,9 @@ def get_club_info(club_in):
         match_df = adjust_for_stages(match_id, match_df)
 
         # for each match, gather and organize information
-        result_df = get_match_info(club_in, match_df, match_id, date)
+        result_df = get_match_info(club_in, match_df, match_id, date, match_wk)
         match_results.append(result_df)
+        match_wk += 1
 
 
     # create & merge data frame from collection of individual data frames
