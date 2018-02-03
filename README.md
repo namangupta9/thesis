@@ -16,7 +16,7 @@ Coming Soon.
 ## Interactive Visualizations
 Interactive Coming Soon.
 Sample: Chelsea / Swansea, 08.08.2015
-![Sample Match](img/charting.png)
+![Sample Match](Images/charting.png)
 
 ## Authors
 
