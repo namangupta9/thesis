@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 from ast import literal_eval
 from longform_helpers import mark_events, adjust_for_stages
+import math
 
 
 def get_match_info(club_in, match_df, match_id, date, match_wk):
@@ -21,17 +22,17 @@ def get_match_info(club_in, match_df, match_id, date, match_wk):
     as they're watching / searching the match live. A cumulative measure would
     be more appropriate - how many scored 'until this point'?
 
-    Also important not to be too specific, to avoid overfitting risk.
+    Also important not to be too specific, to avoid overfitting.
 
     Selected Features:
     - Home & Away Goal Timing
     - Home & Away Booking Timing
-    - TODO Match Week (Might affect buildup & match importance)
+    - Match Week (Might affect buildup & match importance)
     - Competitive Index of Match (|Away Win Odds - Home Win Odds|)
-    - TODO Cumulative Total Goals (Self explanatory)
-    - TODO Cumulative Goal Differential (How "close" is the match?)
-    - TODO Man Down? (There's been at least 1 red card)
-    - TODO Upset In Progress? (Club w/ Lower Winning Odds is Actually Winning)
+    - Cumulative Total Goals (Self explanatory)
+    - Cumulative Goal Differential (How "close" is the match?)
+    - Man Down? (There's been at least 1 red card)
+    - Upset? (Club w/ Lower Winning Odds is Actually Winning)
 
     """
 
@@ -69,7 +70,13 @@ def get_match_info(club_in, match_df, match_id, date, match_wk):
     home_reds_actual = [datetime.datetime.strptime(x, '%H:%M:%S').time() for x in home_reds_actual]
     away_reds_actual = [datetime.datetime.strptime(x, '%H:%M:%S').time() for x in away_reds_actual]
 
-    # mark match events
+    # initialize some features
+    match_df["match_wk"] = match_wk
+    match_df["cum_total_goals"] = 0         # cumulative total goals
+    match_df["man_down"] = 0                # has there been a red card?
+    match_df["cum_goal_diff"] = 0           # cumulative goal differential
+
+    # mark match events & 'fill' features
     match_df = mark_events(home_goals_actual,
                            away_goals_actual,
                            home_yellows_actual,
@@ -78,23 +85,25 @@ def get_match_info(club_in, match_df, match_id, date, match_wk):
                            away_reds_actual,
                            match_df)
 
+    # competitive index is defined as (home win odds - away win odds)
+    # cumulative goal differential is defined as (home goals - away goals)
+    # two logical cases here:
+    # - if (competitive_idx is < 0) && (cum_goal_diff < 0), upset in progress!
+    match_df["upset"] = 0
+    upset_indices = match_df.query('competitive_idx < 0 and cum_goal_diff < 0').index
+    if len(upset_indices) > 0:
+        match_df.loc[upset_indices, "upset"] = 1
 
-    # cumulative total goals
-    # for each goal scored, go find the index, and increment everything afterwards by +1
-    match_df["cum_total_goals"] = 0
+    # - if (competitive_idx is > 0) && (cum_goal_diff > 0), upset in progress!
+    upset_indices = match_df.query('competitive_idx > 0 and cum_goal_diff > 0').index
+    if len(upset_indices) > 0:
+        match_df.loc[upset_indices, "upset"] = 1
 
-    # cumulative goal differential
-    match_df["cum_goal_diff"] = 0
-
-    # man down
-    # if red card, go find first one's index, and increment everything afterwards by +1
-    match_df["man_down"] = 0
-
-    # match week
-    match_df["match_wk"] = match_wk
-
-    # upset in progress; going to have to figure out logic here...s
-    match_df["upset_in_progress"] = 0
+    # once 'upset in progress' feature determined...
+    # make cumulative goal differential an absolute value (match 'closeness' should be club-agnostic)
+    # same for competitive index feature
+    match_df["cum_goal_diff"] = match_df["cum_goal_diff"].apply(lambda x: abs(x))
+    match_df["competitive_idx"] = match_df["competitive_idx"].apply(lambda x: math.fabs(x))
 
     # finalize the order of the columns & return
     col_order = ["match_id", "shorthand_search_vol", "home_goal", "away_goal",
@@ -102,7 +111,7 @@ def get_match_info(club_in, match_df, match_id, date, match_wk):
                  "stage_0_ind", "stage_1_ind", "stage_2_ind", "stage_3_ind",
                  "stage_4_ind", "match_wk", "competitive_idx",
                  "cum_total_goals", "cum_goal_diff", "man_down",
-                 "upset_in_progress"]
+                 "upset"]
 
     match_df = match_df[col_order]
     return match_df

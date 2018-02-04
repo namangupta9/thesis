@@ -93,28 +93,37 @@ def mark_events(home_goals, away_goals, home_yellows,
     # iterate through list of event type
     # for each event, pick out the row which contains the occurence of event
     # set that row's event value to be 1 instead of 0
+
+    # for goals: increment cumulative # goals with each goal
     for goal in home_goals:
         idx = df["home_goal"].loc[df.index >= goal].index[0]
-        df["home_goal"].loc[idx] = 1
+        df["home_goal"].loc[idx] = 1                            # binary flag
+        df["cum_total_goals"].loc[df.index >= goal] += 1        # increment
+        df["cum_goal_diff"].loc[df.index >= goal] += 1          # increment
 
     for goal in away_goals:
         idx = df["away_goal"].loc[df.index >= goal].index[0]
-        df["away_goal"].loc[idx] = 1
+        df["away_goal"].loc[idx] = 1                            # binary flag
+        df["cum_total_goals"].loc[df.index >= goal] += 1        # increment
+        df["cum_goal_diff"].loc[df.index >= goal] -= 1          # decrement
 
     for card in home_yellows:
         idx = df["home_yellow"].loc[df.index >= card].index[0]
-        df["home_yellow"].loc[idx] = 1
+        df["home_yellow"].loc[idx] = 1                          # binary flag
 
     for card in away_yellows:
         idx = df["away_yellow"].loc[df.index >= card].index[0]
-        df["away_yellow"].loc[idx] = 1
+        df["away_yellow"].loc[idx] = 1                          # binary flag
 
+    # for red cards: mark "man down" after a red
     for card in home_reds:
         idx = df["home_red"].loc[df.index >= card].index[0]
-        df["home_red"].loc[idx] = 1
+        df["home_red"].loc[idx] = 1                             # binary flag
+        df["man_down"].loc[df.index >= card] = 1                # binary flag
 
     for card in away_reds:
         idx = df["away_red"].loc[df.index >= card].index[0]
-        df["away_red"].loc[idx] = 1
+        df["away_red"].loc[idx] = 1                             # binary flag
+        df["man_down"].loc[df.index >= card] = 1                # binary flag
 
     return df

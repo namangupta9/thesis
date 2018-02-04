@@ -15,9 +15,10 @@ import math
 
 def get_competitive_index(match_info_df):
     """Return the 'competitive index' of a match."""
-    # competitive index defined as |away win - home win|
-    return math.fabs(float(match_info_df["avg_a_odds"].iloc[0]) -
-                     float(match_info_df["avg_h_odds"].iloc[0]))
+    # competitive index defined as (home win - away win)
+    # will be made into an absolute value later on in analysis, not here
+    return (float(match_info_df["avg_h_odds"].iloc[0]) -
+            float(match_info_df["avg_a_odds"].iloc[0]))
 
 
 def calculate_baseline(club_in, match_df):
