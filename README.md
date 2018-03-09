@@ -8,6 +8,8 @@ Understanding how various match events in the English Premier League and affect 
 * [kaggle](https://www.kaggle.com/hugomathien/soccer/version/6) - Gather match events and associated metadata
 * [sqlite3](https://docs.python.org/3/library/sqlite3.html) -  Integrate SQL operations with API requests
 * [plot.ly / dash](https://plot.ly/dash/) - Create interactive data visualization website 
+* [ggplot](https://github.com/yhat/ggpy) - Batch plotting search volume activity & model predictions
+* [statsmodels](http://www.statsmodels.org/dev/index.html) - Statistical modeling toolkit in Python
 
 ## White Paper
 
