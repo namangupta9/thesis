@@ -1,0 +1,38 @@
+                             OLS Regression Results                             
+================================================================================
+Dep. Variable:     shorthand_search_vol   R-squared:                       0.806
+Model:                              OLS   Adj. R-squared:                  0.806
+Method:                   Least Squares   F-statistic:                 1.485e+04
+Date:                  Fri, 09 Mar 2018   Prob (F-statistic):               0.00
+Time:                          15:14:56   Log-Likelihood:            -2.4039e+05
+No. Observations:                 53548   AIC:                         4.808e+05
+Df Residuals:                     53533   BIC:                         4.810e+05
+Df Model:                            15                                         
+Covariance Type:              nonrobust                                         
+===================================================================================
+                      coef    std err          t      P>|t|      [0.025      0.975]
+-----------------------------------------------------------------------------------
+stage_1_ind        43.9900      0.219    201.066      0.000      43.561      44.419
+stage_2_ind        66.4197      0.273    243.123      0.000      65.884      66.955
+stage_3_ind        36.6530      0.316    115.962      0.000      36.033      37.273
+stage_4_ind        25.1858      0.327     77.137      0.000      24.546      25.826
+competitive_idx     1.3394      0.031     43.644      0.000       1.279       1.400
+home_goal           4.7690      0.691      6.899      0.000       3.414       6.124
+away_goal           3.8112      0.749      5.090      0.000       2.344       5.279
+home_yellow        -1.3762      0.705     -1.951      0.051      -2.759       0.006
+away_yellow        -0.3382      0.663     -0.510      0.610      -1.637       0.961
+home_red           -5.4002      3.080     -1.753      0.080     -11.438       0.638
+away_red           -0.2391      2.653     -0.090      0.928      -5.439       4.961
+cum_total_goals    -0.4888      0.088     -5.537      0.000      -0.662      -0.316
+cum_goal_diff      -0.9012      0.127     -7.119      0.000      -1.149      -0.653
+man_down           -0.7513      0.402     -1.870      0.061      -1.539       0.036
+upset               2.3802      0.300      7.924      0.000       1.791       2.969
+==============================================================================
+Omnibus:                      499.688   Durbin-Watson:                   0.247
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              531.133
+Skew:                           0.215   Prob(JB):                    4.63e-116
+Kurtosis:                       3.230   Cond. No.                         140.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.

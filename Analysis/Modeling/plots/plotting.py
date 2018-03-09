@@ -1,7 +1,6 @@
 """Basic plotting with ggplot."""
 
 import pandas as pd
-import datetime
 import matplotlib
 matplotlib.use('TkAgg')
 from ggplot import *
@@ -28,4 +27,4 @@ p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="1 hour")
 p += facet_grid('date', scales='free_x')
 p += labs(x="Time", y="Search Volume (Scaled to 100)")
 p += ggtitle("Matchweek 1")
-p.save('plots/matchweek1.png', width=25, height=10)
+p.save('matchweek1.png', width=25, height=10)
