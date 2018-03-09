@@ -10,6 +10,7 @@ def get_stages(match_id):
     with open("../Baselines/baselines.csv", "r") as file:
         baselines_df = pd.read_csv(file)
         match_row = baselines_df.loc[baselines_df["match"] == match_id]
+
         stages.append(match_row["stage_0"].iloc[0])
         stages.append(match_row["stage_1"].iloc[0])
         stages.append(match_row["stage_2"].iloc[0])
@@ -38,7 +39,8 @@ def adjust_for_stages(match_id, match_df):
 
     # remove fullname if necessary; we don't care about this
     if len(match_df.columns) == 4:
-        match_df = match_df.drop(match_df.columns[1], axis=1)
+        if "Aston Villa" not in match_df.columns:
+            match_df = match_df.drop(match_df.columns[1], axis=1)
 
     # delete the isPartial column
     # the date can also go away (redundant once we have match id)

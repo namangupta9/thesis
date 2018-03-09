@@ -121,6 +121,7 @@ def get_club_info(club_in):
     # get relevant files as data frames
     search_vol = pd.read_csv("../../Matchday Volumes/"
                              + club_in + "_matchday_2016.csv")
+
     search_vol['time'] = search_vol.apply(lambda row: row.date[-8:], axis=1)
     search_vol['date'] = search_vol.apply(lambda row: row.date[:-9], axis=1)
 
@@ -143,7 +144,6 @@ def get_club_info(club_in):
         result_df = get_match_info(club_in, match_df, match_id, date, match_wk)
         match_results.append(result_df)
         match_wk += 1
-
 
     # create & merge data frame from collection of individual data frames
     df = pd.concat(match_results)
