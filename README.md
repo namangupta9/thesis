@@ -16,7 +16,7 @@ Understanding how various match events in the English Premier League and affect 
 Coming Soon.
 
 ## Search Volume Data: Google Trends
-![Sample Matchweek](thesis/Analysis/Modeling/plots/matchweek1.png)
+![Sample Matchweek](Analysis/Modeling/plots/matchweek1.png)
 
 ## Interactive Visualizations
 Interactive Coming Soon.
