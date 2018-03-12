@@ -20,7 +20,6 @@ x_vars = longform_df[["stage_1_ind",
                       "stage_4_ind"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model1.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
@@ -32,7 +31,6 @@ x_vars = longform_df[["stage_1_ind",
                       "competitive_idx"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model2.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
@@ -50,7 +48,6 @@ x_vars = longform_df[["stage_1_ind",
                       "away_red"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model3.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
@@ -66,7 +63,6 @@ x_vars = longform_df[["stage_1_ind",
                       "upset"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model4.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
@@ -88,7 +84,6 @@ x_vars = longform_df[["stage_1_ind",
                       "upset"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model5.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
@@ -123,7 +118,6 @@ x_vars = longform_df[["stage_1_ind",
                       "away_goal_AND_deadlock"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model6.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
@@ -147,7 +141,6 @@ x_vars = stage_2_df[["competitive_idx",
                      "away_goal_AND_deadlock"]]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model7.txt', 'w') as f:
-    # print summary
     print >> f, lm.summary()
 
 
