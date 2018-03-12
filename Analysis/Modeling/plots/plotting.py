@@ -21,12 +21,15 @@ p = ggplot(aes(x='date_time',
            data=longform_df >> sift(X.match_wk == 0))
 
 p += geom_line()
-p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="1 hour")
+p += scale_x_date(labels=date_format("%H:%M"), date_breaks="1 hour")
 p += facet_grid('date', scales='free_x')
-p += labs(x="time (gmt)", y="search volume (scaled to 100)")
-p += ggtitle("premier league matchweek 1, 2015/2016")
-p.save('matchweek1.png', width=25, height=10)
-
+p += labs(x="", y="")
+p += ylim(0, 105)
+t = theme_gray()
+t._rcParams['font.size'] = 8
+t._rcParams['font.family'] = 'monospace' # Legend font size
+p += t
+p.save('matchweek1.png', width=8, height=8)
 
 # plotting an individual match (w/ match events!)
 p = ggplot(aes(x='date_time',
@@ -37,7 +40,7 @@ p = ggplot(aes(x='date_time',
                                     (X.match_id == "manchester_city2015-08-16")))
 p += geom_line()
 p += labs(x="time (gmt)", y="search volume (scaled to 100)")
-p += ggtitle("man. city (h) vs. chelsea (a), aug. 8 '16, etihad stadium")
+p += ggtitle("man. city (h) vs. chelsea (a)\naug. 8 '16, etihad stadium")
 
 # add in shaded rectangle to indicate actual match TODO
 # rect_df = longform_df >> sift(X.stage_2_ind == 1) >> \
@@ -71,7 +74,7 @@ p = ggplot(aes(x='date_time',
 p += geom_line()
 p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="1 hour")
 p += labs(x="time (gmt)", y="search volume (scaled to 100)")
-p += ggtitle("[match only] man. city (h) vs. chelsea (a), aug. 8 '16, etihad stadium")
+p += ggtitle("[match only] man. city (h) vs. chelsea (a)\naug. 8 '16, etihad stadium")
 p.save('chelsea_manchester_city2015-08-16_stage_2.png', width=25, height=10)
 
 # and now let's plot the "stationarized" version (first difference)
@@ -86,5 +89,5 @@ p += geom_line()
 p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="1 hour")
 p += labs(x="time (gmt)", y="+/- differences in search volume (per 8 minutes)")
 p += geom_hline(y=0, color='BurlyWood')
-p += ggtitle("[stationarized] man. city (h) vs. chelsea (a), aug. 8 '16, etihad stadium")
+p += ggtitle("[stationarized] man. city (h) vs. chelsea (a)\naug. 8 '16, etihad stadium")
 p.save('chelsea_manchester_city2015-08-16_stationarized.png', width=25, height=10)
