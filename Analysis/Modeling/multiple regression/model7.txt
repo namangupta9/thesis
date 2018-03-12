@@ -1,0 +1,37 @@
+                             OLS Regression Results                             
+================================================================================
+Dep. Variable:     shorthand_search_vol   R-squared:                       0.541
+Model:                              OLS   Adj. R-squared:                  0.540
+Method:                   Least Squares   F-statistic:                     894.8
+Date:                  Mon, 12 Mar 2018   Prob (F-statistic):               0.00
+Time:                          18:55:42   Log-Likelihood:                -56650.
+No. Observations:                 10640   AIC:                         1.133e+05
+Df Residuals:                     10626   BIC:                         1.134e+05
+Df Model:                            14                                         
+Covariance Type:              nonrobust                                         
+==========================================================================================
+                             coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------
+competitive_idx           10.5117      0.132     79.788      0.000      10.253      10.770
+home_goal                 20.1871      2.130      9.478      0.000      16.012      24.362
+away_goal                 34.8061      2.605     13.361      0.000      29.700      39.913
+home_yellow               27.8527      1.625     17.138      0.000      24.667      31.038
+away_yellow               26.8417      1.528     17.563      0.000      23.846      29.838
+home_red                  15.5795      7.275      2.142      0.032       1.319      29.840
+away_red                  21.5890      6.285      3.435      0.001       9.269      33.909
+home_goal_AND_upset       26.7922      3.646      7.348      0.000      19.645      33.939
+away_goal_AND_upset        1.3365      3.868      0.346      0.730      -6.245       8.918
+home_goal_AND_man_down     1.0517      6.373      0.165      0.869     -11.441      13.545
+away_goal_AND_man_down   -15.4905      7.595     -2.040      0.041     -30.377      -0.604
+man_down_AND_upset         9.5843      4.244      2.258      0.024       1.265      17.903
+home_goal_AND_deadlock    11.9551      4.538      2.634      0.008       3.060      20.850
+away_goal_AND_deadlock     0.1412      4.470      0.032      0.975      -8.622       8.904
+==============================================================================
+Omnibus:                     1472.854   Durbin-Watson:                   0.369
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2255.463
+Skew:                          -0.991   Prob(JB):                         0.00
+Kurtosis:                       4.078   Cond. No.                         66.5
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.

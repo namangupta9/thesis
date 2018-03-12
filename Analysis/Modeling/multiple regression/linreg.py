@@ -92,6 +92,65 @@ with open('model5.txt', 'w') as f:
     print >> f, lm.summary()
 
 
+# BUILDING IN STATISTICAL INTERACTIONS
+longform_df['home_goal_AND_upset'] = longform_df['home_goal'].astype(int) * longform_df['upset'].astype(int)
+longform_df['away_goal_AND_upset'] = longform_df['away_goal'].astype(int) * longform_df['upset'].astype(int)
+longform_df['home_goal_AND_man_down'] = longform_df['home_goal'].astype(int) * longform_df['man_down'].astype(int)
+longform_df['away_goal_AND_man_down'] = longform_df['away_goal'].astype(int) * longform_df['man_down'].astype(int)
+longform_df['man_down_AND_upset'] = longform_df['man_down'].astype(int) * longform_df['upset'].astype(int)
+longform_df["deadlock"] = (longform_df["cum_goal_diff"].astype(int) == 0).astype(int)
+longform_df['home_goal_AND_deadlock'] = longform_df['home_goal'].astype(int) * longform_df['deadlock'].astype(int)
+longform_df['away_goal_AND_deadlock'] = longform_df['away_goal'].astype(int) * longform_df['deadlock'].astype(int)
+
+# MLR MODEL #6: USING INTERACTIONS
+x_vars = longform_df[["stage_1_ind",
+                      "stage_2_ind",
+                      "stage_3_ind",
+                      "stage_4_ind",
+                      "competitive_idx",
+                      "home_goal",
+                      "away_goal",
+                      "home_yellow",
+                      "away_yellow",
+                      "home_red",
+                      "away_red",
+                      "home_goal_AND_upset",
+                      "away_goal_AND_upset",
+                      "home_goal_AND_man_down",
+                      "away_goal_AND_man_down",
+                      "man_down_AND_upset",
+                      "home_goal_AND_deadlock",
+                      "away_goal_AND_deadlock"]]
+lm = sm.OLS(y_var, x_vars).fit()
+with open('model6.txt', 'w') as f:
+    # print summary
+    print >> f, lm.summary()
+
+
+# MLR MODEL #7: USING INTERACTIONS, ONLY STAGE 2
+stage_2_df = longform_df >> sift(X.stage_2_ind == 1)
+stage_2_df = stage_2_df.reset_index(drop=True)
+y_var = stage_2_df["shorthand_search_vol"]
+x_vars = stage_2_df[["competitive_idx",
+                     "home_goal",
+                     "away_goal",
+                     "home_yellow",
+                     "away_yellow",
+                     "home_red",
+                     "away_red",
+                     "home_goal_AND_upset",
+                     "away_goal_AND_upset",
+                     "home_goal_AND_man_down",
+                     "away_goal_AND_man_down",
+                     "man_down_AND_upset",
+                     "home_goal_AND_deadlock",
+                     "away_goal_AND_deadlock"]]
+lm = sm.OLS(y_var, x_vars).fit()
+with open('model7.txt', 'w') as f:
+    # print summary
+    print >> f, lm.summary()
+
+
 # OTHER COMMENTS Schwartz Left
 
 # print('Parameters: ', lm.params)
