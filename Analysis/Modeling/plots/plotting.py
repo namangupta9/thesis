@@ -56,7 +56,11 @@ p += ggtitle("man. city (h) vs. chelsea (a)\naug. 8 '16, etihad stadium")
 #     p += geom_vline(xintercept=[row["date_time"]], color='red')
 
 p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="30 minutes")
-p.save('chelsea_manchester_city2015-08-16.png', width=25, height=10)
+t = theme_gray()
+t._rcParams['font.size'] = 8
+t._rcParams['font.family'] = 'monospace'
+p += t
+p.save('chelsea_manchester_city2015-08-16.png', width=16, height=8)
 
 # use the below to inform assumptions about ARIMA parameters
 
@@ -75,7 +79,11 @@ p += geom_line()
 p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="1 hour")
 p += labs(x="time (gmt)", y="search volume (scaled to 100)")
 p += ggtitle("[match only] man. city (h) vs. chelsea (a)\naug. 8 '16, etihad stadium")
-p.save('chelsea_manchester_city2015-08-16_stage_2.png', width=25, height=10)
+t = theme_gray()
+t._rcParams['font.size'] = 8
+t._rcParams['font.family'] = 'monospace'
+p += t
+p.save('chelsea_manchester_city2015-08-16_stage_2.png', width=16, height=8)
 
 # and now let's plot the "stationarized" version (first difference)
 stage_2_df["first_diff"] = stage_2_df.shorthand_search_vol.diff(periods=1)
@@ -88,6 +96,10 @@ p = ggplot(aes(x='date_time',
 p += geom_line()
 p += scale_x_date(labels=date_format("%H:%M:%S"), date_breaks="1 hour")
 p += labs(x="time (gmt)", y="+/- differences in search volume (per 8 minutes)")
-p += geom_hline(y=0, color='BurlyWood')
+p += geom_hline(y=0, color='black')
 p += ggtitle("[stationarized] man. city (h) vs. chelsea (a)\naug. 8 '16, etihad stadium")
-p.save('chelsea_manchester_city2015-08-16_stationarized.png', width=25, height=10)
+t = theme_gray()
+t._rcParams['font.size'] = 8
+t._rcParams['font.family'] = 'monospace'
+p += t
+p.save('chelsea_manchester_city2015-08-16_stationarized.png', width=16, height=8)
