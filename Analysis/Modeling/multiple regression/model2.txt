@@ -1,27 +1,28 @@
                              OLS Regression Results                             
 ================================================================================
-Dep. Variable:     shorthand_search_vol   R-squared:                       0.805
-Model:                              OLS   Adj. R-squared:                  0.805
-Method:                   Least Squares   F-statistic:                 4.429e+04
-Date:                  Mon, 12 Mar 2018   Prob (F-statistic):               0.00
-Time:                          18:55:42   Log-Likelihood:            -2.4052e+05
-No. Observations:                 53548   AIC:                         4.810e+05
-Df Residuals:                     53543   BIC:                         4.811e+05
+Dep. Variable:     shorthand_search_vol   R-squared:                       0.457
+Model:                              OLS   Adj. R-squared:                  0.457
+Method:                   Least Squares   F-statistic:                     9004.
+Date:                  Wed, 28 Mar 2018   Prob (F-statistic):               0.00
+Time:                          17:13:18   Log-Likelihood:            -2.2957e+05
+No. Observations:                 53548   AIC:                         4.592e+05
+Df Residuals:                     53542   BIC:                         4.592e+05
 Df Model:                             5                                         
 Covariance Type:              nonrobust                                         
 ===================================================================================
                       coef    std err          t      P>|t|      [0.025      0.975]
 -----------------------------------------------------------------------------------
-stage_1_ind        44.1882      0.219    202.194      0.000      43.760      44.617
-stage_2_ind        66.3198      0.226    293.515      0.000      65.877      66.763
-stage_3_ind        34.8477      0.225    154.768      0.000      34.406      35.289
-stage_4_ind        23.3370      0.237     98.356      0.000      22.872      23.802
-competitive_idx     1.2723      0.030     42.172      0.000       1.213       1.331
+ones               29.8245      0.181    164.440      0.000      29.469      30.180
+stage_1_ind        20.2768      0.230     88.177      0.000      19.826      20.728
+stage_2_ind        42.5839      0.234    181.980      0.000      42.125      43.043
+stage_3_ind        10.7550      0.235     45.796      0.000      10.295      11.215
+stage_4_ind        -0.8699      0.243     -3.579      0.000      -1.346      -0.394
+competitive_idx    -0.6763      0.027    -24.774      0.000      -0.730      -0.623
 ==============================================================================
-Omnibus:                      498.479   Durbin-Watson:                   0.247
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):              528.419
-Skew:                           0.216   Prob(JB):                    1.80e-115
-Kurtosis:                       3.224   Cond. No.                         11.6
+Omnibus:                     1894.627   Durbin-Watson:                   0.232
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2228.110
+Skew:                           0.432   Prob(JB):                         0.00
+Kurtosis:                       3.504   Cond. No.                         21.1
 ==============================================================================
 
 Warnings:

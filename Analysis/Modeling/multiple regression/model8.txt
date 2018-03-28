@@ -12,7 +12,8 @@ Covariance Type:              nonrobust
 ==========================================================================================
                              coef    std err          t      P>|t|      [0.025      0.975]
 ------------------------------------------------------------------------------------------
-ones                      72.5878      0.310    234.005      0.000      71.980      73.196
+ones                      36.2939      0.155    234.005      0.000      35.990      36.598
+stage_2_ind               36.2939      0.155    234.005      0.000      35.990      36.598
 competitive_idx           -0.5465      0.067     -8.126      0.000      -0.678      -0.415
 home_goal                  2.0216      0.820      2.466      0.014       0.415       3.629
 away_goal                  0.0498      1.009      0.049      0.961      -1.927       2.027
@@ -33,8 +34,10 @@ away_goal_AND_deadlock    -1.6466      1.708     -0.964      0.335      -4.994  
 Omnibus:                      523.234   Durbin-Watson:                   0.401
 Prob(Omnibus):                  0.000   Jarque-Bera (JB):              603.552
 Skew:                          -0.583   Prob(JB):                    8.71e-132
-Kurtosis:                       2.945   Cond. No.                         67.8
+Kurtosis:                       2.945   Cond. No.                     3.65e+16
 ==============================================================================
 
 Warnings:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 1.37e-28. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.

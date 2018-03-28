@@ -1,31 +1,32 @@
                              OLS Regression Results                             
 ================================================================================
-Dep. Variable:     shorthand_search_vol   R-squared:                       0.806
-Model:                              OLS   Adj. R-squared:                  0.806
-Method:                   Least Squares   F-statistic:                 2.470e+04
-Date:                  Mon, 12 Mar 2018   Prob (F-statistic):               0.00
-Time:                          18:55:42   Log-Likelihood:            -2.4043e+05
-No. Observations:                 53548   AIC:                         4.809e+05
-Df Residuals:                     53539   BIC:                         4.810e+05
+Dep. Variable:     shorthand_search_vol   R-squared:                       0.458
+Model:                              OLS   Adj. R-squared:                  0.457
+Method:                   Least Squares   F-statistic:                     5018.
+Date:                  Wed, 28 Mar 2018   Prob (F-statistic):               0.00
+Time:                          17:13:18   Log-Likelihood:            -2.2953e+05
+No. Observations:                 53548   AIC:                         4.591e+05
+Df Residuals:                     53538   BIC:                         4.592e+05
 Df Model:                             9                                         
 Covariance Type:              nonrobust                                         
 ===================================================================================
                       coef    std err          t      P>|t|      [0.025      0.975]
 -----------------------------------------------------------------------------------
-stage_1_ind        43.9856      0.219    200.916      0.000      43.557      44.415
-stage_2_ind        66.8448      0.249    268.497      0.000      66.357      67.333
-stage_3_ind        36.3742      0.314    115.925      0.000      35.759      36.989
-stage_4_ind        24.8694      0.323     76.876      0.000      24.235      25.503
-competitive_idx     1.3395      0.031     43.629      0.000       1.279       1.400
-cum_total_goals    -0.3900      0.087     -4.470      0.000      -0.561      -0.219
-cum_goal_diff      -0.8725      0.127     -6.892      0.000      -1.121      -0.624
-man_down           -0.8560      0.395     -2.167      0.030      -1.630      -0.082
-upset               2.4736      0.300      8.242      0.000       1.885       3.062
+ones               29.8432      0.182    164.022      0.000      29.487      30.200
+stage_1_ind        20.2607      0.230     88.155      0.000      19.810      20.711
+stage_2_ind        42.8892      0.250    171.442      0.000      42.399      43.380
+stage_3_ind        11.7236      0.297     39.495      0.000      11.142      12.305
+stage_4_ind         0.1079      0.304      0.355      0.723      -0.488       0.704
+competitive_idx    -0.6793      0.028    -24.339      0.000      -0.734      -0.625
+cum_total_goals    -0.4979      0.071     -6.993      0.000      -0.637      -0.358
+cum_goal_diff       0.3620      0.104      3.496      0.000       0.159       0.565
+man_down           -1.4542      0.322     -4.512      0.000      -2.086      -0.823
+upset               0.5127      0.245      2.091      0.037       0.032       0.993
 ==============================================================================
-Omnibus:                      506.924   Durbin-Watson:                   0.247
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):              538.479
-Skew:                           0.217   Prob(JB):                    1.18e-117
-Kurtosis:                       3.229   Cond. No.                         19.9
+Omnibus:                     1906.403   Durbin-Watson:                   0.232
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2239.627
+Skew:                           0.434   Prob(JB):                         0.00
+Kurtosis:                       3.501   Cond. No.                         25.9
 ==============================================================================
 
 Warnings:
