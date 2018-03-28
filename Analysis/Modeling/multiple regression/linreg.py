@@ -13,6 +13,9 @@ y_var = longform_df["shorthand_search_vol"]       # search volume
 longform_df['ones'] = 1
 
 
+# TODO .predict(), and then plot the predicted values vs. actual values
+
+
 # MLR MODEL #1: USING ONLY MATCH STAGES TO PREDICT SEARCH VOLUME
 # note the difference in argument order; y_var is dependent, x_vars independent
 # using Stage 0 as "reference level"; only vars are stage_1-4_indicators
@@ -25,6 +28,18 @@ lm = sm.OLS(y_var, x_vars).fit()
 with open('model1.txt', 'w') as f:
     print >> f, lm.summary()
 
+# plot the predicted & the actual
+# also have a column for the residual
+longform_df["pred_1"] = lm.predict()
+
+p = ggplot(aes(x='date_time',
+               y='shorthand_search_vol',
+               group="match_id",
+               color="match_id"),
+           data=longform_df >> sift((X.match_id == "chelsea2015-08-16") |
+                                    (X.match_id == "manchester_city2015-08-16")))
+
+p += geom_line(aes(y='pred_1'))
 
 # MLR MODEL #2: USING MATCH STAGES + COMPETITIVE INDEX TO PREDICT SEARCH VOL
 x_vars = longform_df[["ones",

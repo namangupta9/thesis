@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib
 matplotlib.use('TkAgg')
 from ggplot import *
-# http://yhat.github.io/ggpy/docs.html
 from dplython import *
 
 # initial data processing

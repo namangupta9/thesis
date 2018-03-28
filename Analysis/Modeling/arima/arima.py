@@ -43,7 +43,8 @@ with open('model1.txt', 'w') as f:
 
 
 # ARIMA MODEL #2: USING ALL VARS
-x_mat = longform_df >> select(longform_df.match_wk,
+x_mat = longform_df >> select(longform_df.ones,
+                              longform_df.match_wk,
                               longform_df.home_goal,
                               longform_df.away_goal,
                               longform_df.home_yellow,
@@ -97,6 +98,12 @@ model = ARIMA(endog=stage_2_df.shorthand_search_vol,
               dates=stage_2_df.date_time,
               order=(0, 1, 1))
 
+
+# try .predict() for a couple matches at a time
+# might be somewhere in arima where you have to indicate that there's multiple overlapping time series
+# these are "uncorrelated" time series
+
+
 model_fit = model.fit(disp=0)   # disp=0 turns off debug information
 with open('model3.txt', 'w') as f:
     # print summary
@@ -104,7 +111,8 @@ with open('model3.txt', 'w') as f:
 
 
 # ARIMA MODEL #4: STAGE 2, ALL VARS
-x_mat = stage_2_df >> select(stage_2_df.match_wk,
+x_mat = stage_2_df >> select(stage_2_df.ones,
+                             stage_2_df.match_wk,
                              stage_2_df.home_goal,
                              stage_2_df.away_goal,
                              stage_2_df.home_yellow,
@@ -157,7 +165,8 @@ stage_2_df['away_goal_AND_deadlock'] = stage_2_df['away_goal'].astype(int) * sta
 # when goal_diff of 0 and cum_total_goals > 2? really offensive but tight game
 # when goal_diff of 0 and cum_total_goals < 2? really offensive but tight game
 
-x_mat = stage_2_df >> select(stage_2_df.match_wk,
+x_mat = stage_2_df >> select(stage_2_df.ones,
+                             stage_2_df.match_wk,
                              stage_2_df.home_goal,
                              stage_2_df.away_goal,
                              stage_2_df.home_yellow,
@@ -184,7 +193,8 @@ with open('model4.txt', 'w') as f:
     print >> f, model_fit.summary()
 
 # ARIMA MODEL #5: STAGE 2, STRICTLY STATISTICAL INTERACTIONS
-x_mat = stage_2_df >> select(stage_2_df.match_wk,
+x_mat = stage_2_df >> select(stage_2_df.ones,
+                             stage_2_df.match_wk,
                              stage_2_df.home_goal_AND_upset,
                              stage_2_df.away_goal_AND_upset,
                              stage_2_df.home_goal_AND_man_down,
@@ -207,7 +217,8 @@ with open('model5.txt', 'w') as f:
 
 # ARIMA MODEL #6: STAGE 2, STRICTLY STATISTICAL INTERACTIONS (REMOVING SOME INSIGNIF. VARS)
 # ALSO BUMPING UP TO 2 MA COEFFICIENTS..BOTH ARE STATISTICALLY SIGNIFICANT
-x_mat = stage_2_df >> select(stage_2_df.away_goal_AND_upset,
+x_mat = stage_2_df >> select(stage_2_df.ones,
+                             stage_2_df.away_goal_AND_upset,
                              stage_2_df.man_down_AND_upset,
                              stage_2_df.competitive_idx)
 
