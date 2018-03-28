@@ -3,7 +3,8 @@
 import pandas as pd
 import matplotlib
 matplotlib.use('TkAgg')
-from ggplot import *
+from ggplot import (ggplot, geom_line, labs, scale_x_date,
+                    theme_gray, aes, date_format)
 
 
 def plot_matches(df, filename_out, x_var='date_time',
@@ -40,8 +41,3 @@ def plot_matches(df, filename_out, x_var='date_time',
 
     # done
     p.save(filename_out, width=16, height=8)
-
-
-def plot_match_and_preds(df, x_var, y_var, match_id, filename_out):
-    """Plot y as well as y-hat (actual vs. prediction) for a given match."""
-    pass

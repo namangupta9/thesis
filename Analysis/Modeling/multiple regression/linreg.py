@@ -1,9 +1,9 @@
 """Multiple Linear Regression Modeling."""
 
 import pandas as pd
-import numpy as np
-from dplython import *
+from dplython import DplyFrame, sift, X
 import statsmodels.api as sm
+from plotting_helper import plot_matches
 
 # read & dissect df
 longform_df = DplyFrame(pd.read_csv("../../LongForm/longform.csv",
@@ -12,8 +12,16 @@ cols = longform_df.columns
 y_var = longform_df["shorthand_search_vol"]       # search volume
 longform_df['ones'] = 1
 
+# match_df = longform_df >> sift(X.stage_2_ind == 1) \
+#                        >> sift((X.match_id == "chelsea2015-08-16") |
+#                                (X.match_id == "manchester_city2015-08-16"))
 
 # TODO .predict(), and then plot the predicted values vs. actual values
+# create a new match_id for predicted values
+# and concatenate predicted values, match_id to existing data frame
+# then pass into plot_matches(), and it will plot another line easily
+
+# also have a column for the residual
 
 
 # MLR MODEL #1: USING ONLY MATCH STAGES TO PREDICT SEARCH VOLUME
@@ -27,19 +35,7 @@ x_vars = longform_df[["ones",
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model1.txt', 'w') as f:
     print >> f, lm.summary()
-
-# plot the predicted & the actual
-# also have a column for the residual
-longform_df["pred_1"] = lm.predict()
-
-p = ggplot(aes(x='date_time',
-               y='shorthand_search_vol',
-               group="match_id",
-               color="match_id"),
-           data=longform_df >> sift((X.match_id == "chelsea2015-08-16") |
-                                    (X.match_id == "manchester_city2015-08-16")))
-
-p += geom_line(aes(y='pred_1'))
+plot_matches()  # TODO
 
 # MLR MODEL #2: USING MATCH STAGES + COMPETITIVE INDEX TO PREDICT SEARCH VOL
 x_vars = longform_df[["ones",
