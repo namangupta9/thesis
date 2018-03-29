@@ -1,6 +1,7 @@
 """Multiple Linear Regression Modeling."""
 
 import pandas as pd
+import numpy as np
 from dplython import DplyFrame, sift, X
 import statsmodels.api as sm
 from plotting_helper import plot_matches
@@ -181,6 +182,97 @@ predict_on_match_id(lm=lm,
                     opponent_match_id="manchester_city2015-08-16",
                     model_no="linreg_model7",
                     filename_out="model7.png",
+                    x_var_list=x_var_list)
+
+
+# MLR MODEL #8: REFINING MODEL 7, ONLY STAGE 2
+# let's play with a few more features...
+stage_2_df["cum_goal_diff < 2"] = (stage_2_df["cum_goal_diff"].astype(int) < 2).astype(int)
+stage_2_df["goal"] = np.maximum(stage_2_df['home_goal'].astype(int), stage_2_df['away_goal'].astype(int))
+stage_2_df["one_goal_scored"] = (stage_2_df["cum_total_goals"].astype(int) == 1).astype(int)
+stage_2_df["first_goal"] = stage_2_df['goal'].astype(int) * stage_2_df['one_goal_scored'].astype(int)
+
+# aren't many of these; maybe lack of occurence explaining poor significance?
+stage_2_df["red"] = np.maximum(stage_2_df['home_red'].astype(int), stage_2_df['away_red'].astype(int))
+stage_2_df["yellow"] = np.maximum(stage_2_df['home_yellow'].astype(int), stage_2_df['away_yellow'].astype(int))
+
+# should be a difference b/w the thirds of the game, right?
+pd.options.mode.chained_assignment = None  # default='warn'
+stage_2_df["first_30"] = 0
+stage_2_df["second_30"] = 0
+stage_2_df["final_30"] = 0
+first_thirty_end_idx = stage_2_df.shape[0] / 3
+second_thirty_end_idx = first_thirty_end_idx * 2
+stage_2_df["first_30"].iloc[0:first_thirty_end_idx] = 1
+stage_2_df["second_30"].iloc[first_thirty_end_idx:second_thirty_end_idx] = 1
+stage_2_df["final_30"].iloc[second_thirty_end_idx:] = 1
+stage_2_df["goal_and_first_30"] = stage_2_df['goal'].astype(int) * stage_2_df['first_30'].astype(int)
+stage_2_df["goal_and_second_30"] = stage_2_df['goal'].astype(int) * stage_2_df['second_30'].astype(int)
+stage_2_df["goal_and_final_30"] = stage_2_df['goal'].astype(int) * stage_2_df['final_30'].astype(int)
+
+y_var = stage_2_df["shorthand_search_vol"]
+x_var_list = ["ones", "competitive_idx", "first_30", "second_30", "final_30",
+              "goal", "goal_and_first_30", "goal_and_second_30",
+              "goal_and_final_30", "yellow", "red",
+              "cum_total_goals", "man_down", "upset"]
+x_vars = stage_2_df[x_var_list]
+lm = sm.OLS(y_var, x_vars).fit()
+with open('model8.txt', 'w') as f:
+    print >> f, lm.summary()
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2015-08-16",
+                    match_id="chelsea2015-08-16",
+                    opponent_match_id="manchester_city2015-08-16",
+                    model_no="linreg_model8",
+                    filename_out="model8.png",
+                    x_var_list=x_var_list)
+
+# Useful: Best Matches of Season; How'd we do?
+# http://metro.co.uk/2016/05/16/ranked-the-six-best-premier-league-matches-of-the-20162017-season-5881387/
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2015-12-28",
+                    match_id="everton2015-12-28",
+                    opponent_match_id="stoke_city2015-12-28",
+                    model_no="linreg_model8",
+                    filename_out="model8_1.png",
+                    x_var_list=x_var_list)
+
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2016-01-23",
+                    match_id="liverpool2016-01-23",
+                    opponent_match_id="norwich_city2016-01-23",
+                    model_no="linreg_model8",
+                    filename_out="model8_2.png",
+                    x_var_list=x_var_list)
+
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2016-02-14",
+                    match_id="arsenal2016-02-14",
+                    opponent_match_id="leicester_city2016-02-14",
+                    model_no="linreg_model8",
+                    filename_out="model8_3.png",
+                    x_var_list=x_var_list)
+
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2016-03-05",
+                    match_id="tottenham2016-03-05",
+                    opponent_match_id="arsenal2016-03-05",
+                    model_no="linreg_model8",
+                    filename_out="model8_4.png",
+                    x_var_list=x_var_list)
+
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2016-05-02",
+                    match_id="chelsea2016-05-02",
+                    opponent_match_id="tottenham2016-05-02",
+                    model_no="linreg_model8",
+                    filename_out="model8_5.png",
                     x_var_list=x_var_list)
 
 # OTHER COMMENTS Schwartz Left
