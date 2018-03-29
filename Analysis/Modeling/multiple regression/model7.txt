@@ -1,39 +1,41 @@
                              OLS Regression Results                             
 ================================================================================
-Dep. Variable:     shorthand_search_vol   R-squared:                       0.017
-Model:                              OLS   Adj. R-squared:                  0.016
-Method:                   Least Squares   F-statistic:                     11.70
-Date:                  Wed, 28 Mar 2018   Prob (F-statistic):           5.92e-31
-Time:                          17:13:19   Log-Likelihood:                -46405.
-No. Observations:                 10640   AIC:                         9.284e+04
-Df Residuals:                     10623   BIC:                         9.297e+04
-Df Model:                            16                                         
+Dep. Variable:     shorthand_search_vol   R-squared:                       0.044
+Model:                              OLS   Adj. R-squared:                  0.043
+Method:                   Least Squares   F-statistic:                     27.34
+Date:                  Thu, 29 Mar 2018   Prob (F-statistic):           8.25e-91
+Time:                          00:49:21   Log-Likelihood:                -46257.
+No. Observations:                 10640   AIC:                         9.255e+04
+Df Residuals:                     10621   BIC:                         9.269e+04
+Df Model:                            18                                         
 Covariance Type:              nonrobust                                         
 ==========================================================================================
                              coef    std err          t      P>|t|      [0.025      0.975]
 ------------------------------------------------------------------------------------------
-ones                      72.5878      0.310    234.005      0.000      71.980      73.196
-competitive_idx           -0.5465      0.067     -8.126      0.000      -0.678      -0.415
-home_goal                  2.0216      0.820      2.466      0.014       0.415       3.629
-away_goal                  0.0498      1.009      0.049      0.961      -1.927       2.027
-home_yellow               -2.9174      0.634     -4.604      0.000      -4.160      -1.675
-away_yellow               -1.3549      0.595     -2.278      0.023      -2.521      -0.189
-home_red                  -1.8613      2.859     -0.651      0.515      -7.465       3.743
-away_red                   4.4197      2.523      1.752      0.080      -0.525       9.365
-man_down                  -4.6193      1.187     -3.892      0.000      -6.946      -2.293
-upset                      0.9546      0.563      1.694      0.090      -0.150       2.059
-home_goal_AND_upset        0.9574      1.481      0.647      0.518      -1.945       3.860
-away_goal_AND_upset        3.1092      1.565      1.987      0.047       0.041       6.177
-home_goal_AND_man_down     5.0231      2.534      1.982      0.047       0.056       9.990
-away_goal_AND_man_down     2.7860      2.992      0.931      0.352      -3.080       8.652
-man_down_AND_upset        -7.1032      1.876     -3.786      0.000     -10.781      -3.425
-home_goal_AND_deadlock    -0.9122      1.734     -0.526      0.599      -4.310       2.486
-away_goal_AND_deadlock    -1.6466      1.708     -0.964      0.335      -4.994       1.701
+ones                      74.4331      0.325    229.072      0.000      73.796      75.070
+competitive_idx           -0.4463      0.067     -6.652      0.000      -0.578      -0.315
+home_goal                  5.1522      0.845      6.097      0.000       3.496       6.809
+away_goal                  3.7118      1.025      3.620      0.000       1.702       5.722
+home_yellow               -2.1289      0.627     -3.397      0.001      -3.357      -0.900
+away_yellow               -0.6446      0.588     -1.096      0.273      -1.797       0.508
+home_red                  -1.4040      2.820     -0.498      0.619      -6.931       4.123
+away_red                   3.7539      2.489      1.508      0.131      -1.124       8.632
+cum_total_goals           -2.5678      0.188    -13.637      0.000      -2.937      -2.199
+cum_goal_diff             -0.0316      0.288     -0.110      0.912      -0.596       0.532
+man_down                  -2.9801      1.175     -2.537      0.011      -5.283      -0.678
+upset                      2.9965      0.584      5.131      0.000       1.852       4.141
+home_goal_AND_upset       -0.3592      1.475     -0.243      0.808      -3.251       2.533
+away_goal_AND_upset        0.5018      1.562      0.321      0.748      -2.560       3.564
+home_goal_AND_man_down     4.5702      2.500      1.828      0.068      -0.330       9.470
+away_goal_AND_man_down     3.6867      2.956      1.247      0.212      -2.107       9.480
+man_down_AND_upset        -8.4372      1.852     -4.556      0.000     -12.068      -4.807
+home_goal_AND_deadlock    -0.2494      1.773     -0.141      0.888      -3.725       3.226
+away_goal_AND_deadlock    -1.3408      1.739     -0.771      0.441      -4.750       2.069
 ==============================================================================
-Omnibus:                      523.234   Durbin-Watson:                   0.401
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):              603.552
-Skew:                          -0.583   Prob(JB):                    8.71e-132
-Kurtosis:                       2.945   Cond. No.                         67.8
+Omnibus:                      427.974   Durbin-Watson:                   0.393
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              481.138
+Skew:                          -0.521   Prob(JB):                    3.33e-105
+Kurtosis:                       3.032   Cond. No.                         71.2
 ==============================================================================
 
 Warnings:
