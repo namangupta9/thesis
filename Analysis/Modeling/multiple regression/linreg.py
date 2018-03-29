@@ -277,7 +277,7 @@ predict_on_match_id(lm=lm,
 
 # OTHER COMMENTS Schwartz Left
 
-# also make an error column; y_var - prediciton; the "residual"
+# also make an error column; y_var - prediction; the "residual"
 # for what games do you find a high level of error?
 # is it systematic? maybe for all matchweek0 games? boxing day games?
 
