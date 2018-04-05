@@ -1,39 +1,42 @@
-                             OLS Regression Results                             
+                             OLS Regression Results
 ================================================================================
-Dep. Variable:     shorthand_search_vol   R-squared:                       0.048
-Model:                              OLS   Adj. R-squared:                  0.047
-Method:                   Least Squares   F-statistic:                     48.64
-Date:                  Thu, 29 Mar 2018   Prob (F-statistic):          5.92e-105
-Time:                          16:31:44   Log-Likelihood:                -46237.
-No. Observations:                 10640   AIC:                         9.250e+04
-Df Residuals:                     10628   BIC:                         9.259e+04
-Df Model:                            11                                         
-Covariance Type:              nonrobust                                         
+Dep. Variable:     shorthand_search_vol   R-squared:                       0.083
+Model:                              OLS   Adj. R-squared:                  0.082
+Method:                   Least Squares   F-statistic:                     68.94
+Date:                  Thu, 05 Apr 2018   Prob (F-statistic):          2.67e-188
+Time:                          12:34:56   Log-Likelihood:                -46036.
+No. Observations:                 10640   AIC:                         9.210e+04
+Df Residuals:                     10625   BIC:                         9.221e+04
+Df Model:                            14
+Covariance Type:              nonrobust
 ======================================================================================
                          coef    std err          t      P>|t|      [0.025      0.975]
 --------------------------------------------------------------------------------------
-ones                  55.8604      0.241    231.541      0.000      55.387      56.333
-competitive_idx       -0.4677      0.066     -7.097      0.000      -0.597      -0.339
-first_30              17.9780      0.293     61.272      0.000      17.403      18.553
-second_30             20.7779      0.293     70.816      0.000      20.203      21.353
-final_30              17.1045      0.293     58.416      0.000      16.531      17.678
-goal                   3.7586      0.385      9.753      0.000       3.003       4.514
-goal_and_first_30      1.7387      0.687      2.531      0.011       0.392       3.085
-goal_and_second_30     0.7650      0.693      1.105      0.269      -0.593       2.123
-goal_and_final_30      1.2548      0.687      1.827      0.068      -0.092       2.601
-yellow                -1.4560      0.471     -3.091      0.002      -2.379      -0.533
-red                    1.5418      1.966      0.784      0.433      -2.311       5.395
-cum_total_goals       -2.5702      0.147    -17.470      0.000      -2.859      -2.282
-man_down              -4.3191      0.950     -4.545      0.000      -6.182      -2.456
-upset                  2.3973      0.478      5.017      0.000       1.461       3.334
+ones                  56.4736      0.248    227.305      0.000      55.987      56.961
+first_3_wks          -11.5427      0.666    -17.340      0.000     -12.848     -10.238
+last_3_wks            -5.3370      0.667     -8.003      0.000      -6.644      -4.030
+holiday_wk             4.0225      0.666      6.037      0.000       2.716       5.329
+competitive_idx       -0.4694      0.065     -7.253      0.000      -0.596      -0.343
+first_30              18.1647      0.289     62.778      0.000      17.597      18.732
+second_30             21.1096      0.289     72.996      0.000      20.543      21.676
+final_30              17.1994      0.288     59.674      0.000      16.634      17.764
+goal                   3.6799      0.378      9.728      0.000       2.938       4.421
+goal_and_first_30      1.7796      0.674      2.639      0.008       0.458       3.101
+goal_and_second_30     0.5629      0.680      0.828      0.408      -0.770       1.896
+goal_and_final_30      1.3373      0.675      1.983      0.047       0.015       2.660
+yellow                -1.1822      0.463     -2.554      0.011      -2.089      -0.275
+red                    1.8536      1.929      0.961      0.337      -1.929       5.636
+cum_total_goals       -2.4814      0.145    -17.145      0.000      -2.765      -2.198
+man_down              -4.9119      0.935     -5.255      0.000      -6.744      -3.080
+upset                  2.8445      0.470      6.058      0.000       1.924       3.765
 ==============================================================================
-Omnibus:                      396.053   Durbin-Watson:                   0.393
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):              441.505
-Skew:                          -0.499   Prob(JB):                     1.34e-96
-Kurtosis:                       2.982   Cond. No.                     5.20e+16
+Omnibus:                      364.685   Durbin-Watson:                   0.409
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              402.669
+Skew:                          -0.475   Prob(JB):                     3.64e-88
+Kurtosis:                       3.064   Cond. No.                     4.49e+16
 ==============================================================================
 
 Warnings:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-[2] The smallest eigenvalue is 7.02e-29. This might indicate that there are
+[2] The smallest eigenvalue is 9.43e-29. This might indicate that there are
 strong multicollinearity problems or that the design matrix is singular.

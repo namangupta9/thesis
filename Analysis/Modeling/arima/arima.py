@@ -7,6 +7,33 @@ from statsmodels.tsa.arima_model import ARIMA
 from plotting_helper import plot_matches
 # http://www.statsmodels.org/dev/generated/statsmodels.tsa.arima_model.ARIMA.html
 
+
+def predict_on_match_id(model, longform_df, date, match_id, opponent_match_id,
+                        model_no, filename_out):
+    """Run prediction (in-sample) & plot / save on top of match search vol."""
+    match_data = longform_df >> sift(X.match_id == match_id)
+    # candidate_data = match_data[x_var_list]
+
+    # what's the start index of the match_data df, and end index
+    # need to pass those into the .predict() function for ARIMA prediction
+    preds = [(model_no, pred) for pred in model.predict(start=int(min(match_data.index)),
+                                                        end=int(max(match_data.index)))]
+
+    # turn predictions into data frame
+    labels = ["match_id", "shorthand_search_vol"]
+    temp_df = pd.DataFrame.from_records(preds, columns=labels)
+    temp_df = temp_df.set_index(match_data.index)
+    temp_df["time"] = match_data["time"]
+
+    # append to long form df and plot
+    preds_df = pd.concat([longform_df, temp_df], axis=0, ignore_index=True)
+    sifted_df = preds_df >> sift((X.match_id == match_id) |
+                                 (X.match_id == opponent_match_id) |
+                                 (X.match_id == model_no))
+
+    plot_matches(sifted_df, date, filename_out)
+
+
 # read initial data
 longform_df = DplyFrame(pd.read_csv("../../LongForm/longform.csv",
                         dtype={'shorthand_search_vol': float}))
@@ -18,59 +45,59 @@ longform_df['date_time'] = pd.to_datetime(longform_df['date_time'], errors="coer
 
 # fit several ARIMA(2, 0, 2) models
 # TODO: why did Schwartz use 2, 0, 2 as model parameters?
+# TODO: uncomment all below once you figure out prediction / plotting for arima 3+ (smaller models)
 
 # ARIMA MODEL #1: USING BASIC MATCH EVENTS
-x_mat = longform_df >> select(longform_df.home_goal,
-                              longform_df.away_goal,
-                              longform_df.home_yellow,
-                              longform_df.away_yellow,
-                              longform_df.home_red,
-                              longform_df.away_red,
-                              longform_df.stage_1_ind,
-                              longform_df.stage_2_ind,
-                              longform_df.stage_3_ind,
-                              longform_df.stage_4_ind,
-                              longform_df.competitive_idx)
-
-model = ARIMA(endog=longform_df.shorthand_search_vol,
-              exog=x_mat,
-              dates=longform_df.date_time,
-              order=(2, 0, 2))
-
-model_fit = model.fit(disp=0)   # disp=0 turns off debug information
-with open('model1.txt', 'w') as f:
-    # print summary
-    print >> f, model_fit.summary()
-
-
-# ARIMA MODEL #2: USING ALL VARS
-x_mat = longform_df >> select(longform_df.ones,
-                              longform_df.match_wk,
-                              longform_df.home_goal,
-                              longform_df.away_goal,
-                              longform_df.home_yellow,
-                              longform_df.away_yellow,
-                              longform_df.home_red,
-                              longform_df.away_red,
-                              longform_df.stage_1_ind,
-                              longform_df.stage_2_ind,
-                              longform_df.stage_3_ind,
-                              longform_df.stage_4_ind,
-                              longform_df.cum_total_goals,
-                              longform_df.cum_goal_diff,
-                              longform_df.man_down,
-                              longform_df.upset,
-                              longform_df.competitive_idx)
-
-model = ARIMA(endog=longform_df.shorthand_search_vol,
-              exog=x_mat,
-              dates=longform_df.date_time,
-              order=(2, 0, 2))
-
-model_fit = model.fit(disp=0)   # disp=0 turns off debug information
-with open('model2.txt', 'w') as f:
-    # print summary
-    print >> f, model_fit.summary()
+# x_mat = longform_df >> select(longform_df.home_goal,
+#                               longform_df.away_goal,
+#                               longform_df.home_yellow,
+#                               longform_df.away_yellow,
+#                               longform_df.home_red,
+#                               longform_df.away_red,
+#                               longform_df.stage_1_ind,
+#                               longform_df.stage_2_ind,
+#                               longform_df.stage_3_ind,
+#                               longform_df.stage_4_ind,
+#                               longform_df.competitive_idx)
+#
+# model = ARIMA(endog=longform_df.shorthand_search_vol,
+#               exog=x_mat,
+#               dates=longform_df.date_time,
+#               order=(2, 0, 2))
+#
+# model_fit = model.fit(disp=0)   # disp=0 turns off debug information
+# with open('model1.txt', 'w') as f:
+#     # print summary
+#     print >> f, model_fit.summary()
+#
+# # ARIMA MODEL #2: USING ALL VARS
+# x_mat = longform_df >> select(longform_df.ones,
+#                               longform_df.match_wk,
+#                               longform_df.home_goal,
+#                               longform_df.away_goal,
+#                               longform_df.home_yellow,
+#                               longform_df.away_yellow,
+#                               longform_df.home_red,
+#                               longform_df.away_red,
+#                               longform_df.stage_1_ind,
+#                               longform_df.stage_2_ind,
+#                               longform_df.stage_3_ind,
+#                               longform_df.stage_4_ind,
+#                               longform_df.cum_total_goals,
+#                               longform_df.cum_goal_diff,
+#                               longform_df.man_down,
+#                               longform_df.upset,
+#                               longform_df.competitive_idx)
+#
+# model = ARIMA(endog=longform_df.shorthand_search_vol,
+#               exog=x_mat,
+#               dates=longform_df.date_time,
+#               order=(2, 0, 2))
+#
+# model_fit = model.fit(disp=0)   # disp=0 turns off debug information
+# with open('model2.txt', 'w') as f:
+#     # print summary
+#     print >> f, model_fit.summary()
 
 
 # ARIMA MODEL #3: STAGE 2, MATCH EVENTS ONLY
@@ -109,6 +136,13 @@ model_fit = model.fit(disp=0)   # disp=0 turns off debug information
 with open('model3.txt', 'w') as f:
     # print summary
     print >> f, model_fit.summary()
+predict_on_match_id(model=model_fit,
+                    longform_df=longform_df,
+                    date="2015-08-16",
+                    match_id="chelsea2015-08-16",
+                    opponent_match_id="manchester_city2015-08-16",
+                    model_no="arima_model1",
+                    filename_out="model1.png")
 
 
 # ARIMA MODEL #4: STAGE 2, ALL VARS

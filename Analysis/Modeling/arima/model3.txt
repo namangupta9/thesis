@@ -3,8 +3,8 @@
 Dep. Variable:     D.shorthand_search_vol   No. Observations:                10639
 Model:                     ARIMA(0, 1, 1)   Log Likelihood              -41450.528
 Method:                           css-mle   S.D. of innovations             11.907
-Date:                    Wed, 28 Mar 2018   AIC                          82921.056
-Time:                            17:52:24   BIC                          82993.779
+Date:                    Sun, 01 Apr 2018   AIC                          82921.056
+Time:                            18:31:34   BIC                          82993.779
 Sample:                        08-08-2015   HQIC                         82945.597
                              - 05-15-2016                                         
 ================================================================================================

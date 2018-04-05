@@ -210,8 +210,15 @@ stage_2_df["goal_and_first_30"] = stage_2_df['goal'].astype(int) * stage_2_df['f
 stage_2_df["goal_and_second_30"] = stage_2_df['goal'].astype(int) * stage_2_df['second_30'].astype(int)
 stage_2_df["goal_and_final_30"] = stage_2_df['goal'].astype(int) * stage_2_df['final_30'].astype(int)
 
+# define some more features based on what part of the season it is
+stage_2_df['first_3_wks'] = np.where(stage_2_df['match_wk'].astype(int) < 3, 1, 0)
+stage_2_df['last_3_wks'] = np.where(stage_2_df['match_wk'].astype(int) > 34, 1, 0)
+stage_2_df['holiday_wk'] = ((stage_2_df['match_wk'].astype(int) > 17) &
+                            (stage_2_df['match_wk'].astype(int) < 21)).astype(int)
+
 y_var = stage_2_df["shorthand_search_vol"]
-x_var_list = ["ones", "competitive_idx", "first_30", "second_30", "final_30",
+x_var_list = ["ones", "first_3_wks", "last_3_wks", "holiday_wk",
+              "competitive_idx", "first_30", "second_30", "final_30",
               "goal", "goal_and_first_30", "goal_and_second_30",
               "goal_and_final_30", "yellow", "red",
               "cum_total_goals", "man_down", "upset"]
