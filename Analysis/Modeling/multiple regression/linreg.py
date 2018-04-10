@@ -216,12 +216,19 @@ stage_2_df['last_3_wks'] = np.where(stage_2_df['match_wk'].astype(int) > 34, 1, 
 stage_2_df['holiday_wk'] = ((stage_2_df['match_wk'].astype(int) > 17) &
                             (stage_2_df['match_wk'].astype(int) < 21)).astype(int)
 
+stage_2_df['1_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 1, 1, 0)
+stage_2_df['2_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 2, 1, 0)
+stage_2_df['3_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 3, 1, 0)
+stage_2_df['4_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 4, 1, 0)
+stage_2_df['5+_total_goals'] = np.where(stage_2_df['cum_total_goals'].astype(int) >= 5, 1, 0)
+
 y_var = stage_2_df["shorthand_search_vol"]
 x_var_list = ["ones", "first_3_wks", "last_3_wks", "holiday_wk",
-              "competitive_idx", "first_30", "second_30", "final_30",
-              "goal", "goal_and_first_30", "goal_and_second_30",
-              "goal_and_final_30", "yellow", "red",
-              "cum_total_goals", "man_down", "upset"]
+              "competitive_idx", "second_30", "final_30",
+              "goal", "goal_and_second_30",
+              "goal_and_final_30", "yellow", "red", "man_down", "upset",
+              "1_total_goal", "2_total_goal", "3_total_goal",
+              "4_total_goal", "5+_total_goals"]
 x_vars = stage_2_df[x_var_list]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model8.txt', 'w') as f:
@@ -231,7 +238,7 @@ predict_on_match_id(lm=lm,
                     date="2015-08-16",
                     match_id="chelsea2015-08-16",
                     opponent_match_id="manchester_city2015-08-16",
-                    model_no="linreg_model8",
+                    model_no="_linreg_model8",
                     filename_out="model8.png",
                     x_var_list=x_var_list)
 
@@ -242,7 +249,7 @@ predict_on_match_id(lm=lm,
                     date="2015-12-28",
                     match_id="everton2015-12-28",
                     opponent_match_id="stoke_city2015-12-28",
-                    model_no="linreg_model8",
+                    model_no="0linreg_model8",
                     filename_out="model8_1.png",
                     x_var_list=x_var_list)
 
@@ -251,7 +258,7 @@ predict_on_match_id(lm=lm,
                     date="2016-01-23",
                     match_id="liverpool2016-01-23",
                     opponent_match_id="norwich_city2016-01-23",
-                    model_no="linreg_model8",
+                    model_no="0linreg_model8",
                     filename_out="model8_2.png",
                     x_var_list=x_var_list)
 
@@ -260,7 +267,7 @@ predict_on_match_id(lm=lm,
                     date="2016-02-14",
                     match_id="arsenal2016-02-14",
                     opponent_match_id="leicester_city2016-02-14",
-                    model_no="linreg_model8",
+                    model_no="0linreg_model8",
                     filename_out="model8_3.png",
                     x_var_list=x_var_list)
 
@@ -269,7 +276,7 @@ predict_on_match_id(lm=lm,
                     date="2016-03-05",
                     match_id="tottenham2016-03-05",
                     opponent_match_id="arsenal2016-03-05",
-                    model_no="linreg_model8",
+                    model_no="0linreg_model8",
                     filename_out="model8_4.png",
                     x_var_list=x_var_list)
 
@@ -278,7 +285,7 @@ predict_on_match_id(lm=lm,
                     date="2016-05-02",
                     match_id="chelsea2016-05-02",
                     opponent_match_id="tottenham2016-05-02",
-                    model_no="linreg_model8",
+                    model_no="0linreg_model8",
                     filename_out="model8_5.png",
                     x_var_list=x_var_list)
 
