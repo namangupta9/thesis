@@ -6,12 +6,17 @@ import pandas as pd
 import numpy as np
 from dplython import DplyFrame, select, sift, X
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-from arima_helpers import process_data, plot_predictions
+from arima_helpers import process_data, plot_predictions, export_coefficients
 
 
 def fit_arima_model(df_in, x_mat_in, order_in, coefficients_dict,
                     feature_set, match_id):
     """Fit an SARIMAX model to a match, given an x_matrix of features."""
+    club_name = match_id.split("2")[0]
+    path = "arima_" + str(feature_set) + "/" + club_name + "/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     try:
         model = SARIMAX(endog=df_in.shorthand_search_vol.astype(int),
                         exog=x_mat_in,
@@ -21,17 +26,6 @@ def fit_arima_model(df_in, x_mat_in, order_in, coefficients_dict,
 
         model_fit = model.fit(disp=0)   # disp=0 turns off debug information
 
-        # create output path if necessary
-        club_name = match_id.split("2")[0]
-        path = "arima_" + str(feature_set) + "/" + club_name + "/"
-        if not os.path.exists(path):
-            os.makedirs(path)
-
-    except Exception as e:
-        with open("errors.txt", "a+") as error_logfile:
-            error_logfile.write("ERR: Failed to fit model for " + match_id + e)
-
-    try:
         # write model summary & predictions plot to path
         filepath = path + match_id
         with open(filepath + ".txt", 'w') as f:
@@ -52,9 +46,9 @@ def fit_arima_model(df_in, x_mat_in, order_in, coefficients_dict,
             coef = np.mean(confidence_ints.iloc[idx])
             coefficients_dict[feature].append(coef)
 
-    except TypeError:
+    except Exception:
         with open("errors.txt", "a+") as error_logfile:
-            error_logfile.write("ERR: TypeError caused by " + match_id)
+            error_logfile.write("Error caused by " + match_id + '\n')
 
 
 def run_arima_models(large_df_in, x_mat_in, feature_set_in):
@@ -79,7 +73,8 @@ def run_arima_models(large_df_in, x_mat_in, feature_set_in):
         print(match_id)
         # print(coefficients)
 
-    return coefficients
+    json_filename = "arima_" + str(feature_set_in) + ".json"
+    export_coefficients(coefficients, json_filename)
 
 
 if __name__ == "__main__":

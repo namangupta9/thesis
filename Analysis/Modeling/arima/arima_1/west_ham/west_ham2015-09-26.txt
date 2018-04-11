@@ -1,0 +1,30 @@
+                            Statespace Model Results                            
+================================================================================
+Dep. Variable:     shorthand_search_vol   No. Observations:                   14
+Model:                 SARIMAX(1, 1, 0)   Log Likelihood                 -43.250
+Date:                  Tue, 10 Apr 2018   AIC                            102.500
+Time:                          23:22:31   BIC                            107.612
+Sample:                      09-26-2015   HQIC                           102.027
+                           - 09-26-2015                                         
+Covariance Type:                    opg                                         
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+home_goal       0.4599     19.701      0.023      0.981     -38.154      39.074
+away_goal      -6.2657     10.103     -0.620      0.535     -26.068      13.536
+home_yellow          0          0        nan        nan           0           0
+away_yellow          0          0        nan        nan           0           0
+home_red             0          0        nan        nan           0           0
+away_red             0          0        nan        nan           0           0
+ar.L1           0.2356      0.274      0.861      0.389      -0.301       0.772
+sigma2         79.0799     30.315      2.609      0.009      19.664     138.496
+===================================================================================
+Ljung-Box (Q):                        6.36   Jarque-Bera (JB):                 0.80
+Prob(Q):                              0.85   Prob(JB):                         0.67
+Heteroskedasticity (H):               0.84   Skew:                            -0.62
+Prob(H) (two-sided):                  0.87   Kurtosis:                         3.19
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number 4.06e+54. Standard errors may be unstable.

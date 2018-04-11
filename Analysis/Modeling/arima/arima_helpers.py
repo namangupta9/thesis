@@ -1,5 +1,6 @@
 """Helpers for ARIMA Modeling (Time Series Analysis)."""
 
+import json
 import pandas as pd
 from dplython import sift, X
 import matplotlib
@@ -7,6 +8,12 @@ matplotlib.use('TkAgg')
 
 from ggplot import (ggplot, geom_line, labs, scale_x_date,
                     theme_gray, aes, date_format)  # noqa: E402
+
+
+def export_coefficients(coefficients_dict, filename):
+    """Write coefficients_dict to JSON in a specified outfile."""
+    with open(filename, "w+") as outfile:
+        json.dump(coefficients_dict, outfile)
 
 
 def process_data(longform_df):
