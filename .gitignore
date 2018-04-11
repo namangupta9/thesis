@@ -5,3 +5,4 @@
 *.ipynb_checkpoints
 Aux Data/
 database*
+arima_1/
