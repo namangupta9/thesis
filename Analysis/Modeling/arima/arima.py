@@ -41,10 +41,19 @@ def fit_arima_model(df_in, x_mat_in, order_in, coefficients_dict,
 
         confidence_ints = model_fit.conf_int()
         for idx, feature in enumerate(x_mat_in.columns.values):
-            # TODO should i consider whether or not the coef is significant?
-            # if range doesn't include 0, does that indicate significance?
             coef = np.mean(confidence_ints.iloc[idx])
-            coefficients_dict[feature].append(coef)
+            upper = confidence_ints.iloc[idx][1]
+            lower = confidence_ints.iloc[idx][0]
+
+            # filter out 0's & distinguish by significance
+            if coef != 0 and coef is not None:
+
+                # both upper & lower bounds must be both (+), or both (-)
+                prod = upper * lower
+                if prod > 0:
+                    coefficients_dict[feature]["significant"].append(coef)
+                else:
+                    coefficients_dict[feature]["unsignificant"].append(coef)
 
     except Exception:
         with open("errors.txt", "a+") as error_logfile:
@@ -53,12 +62,15 @@ def fit_arima_model(df_in, x_mat_in, order_in, coefficients_dict,
 
 def run_arima_models(large_df_in, x_mat_in, feature_set_in):
     """Iterate through all individual time series, gathering coefficients."""
-    # initialize container for coefficients for each feature
     coefficients = {}
-    for feature in x_mat_in.columns.values:
-        coefficients[feature] = []
+    coefficients['home_goal'] = {"significant": [], "unsignificant": []}
+    coefficients['away_goal'] = {"significant": [], "unsignificant": []}
+    coefficients['home_yellow'] = {"significant": [], "unsignificant": []}
+    coefficients['away_yellow'] = {"significant": [], "unsignificant": []}
+    coefficients['home_red'] = {"significant": [], "unsignificant": []}
+    coefficients['away_red'] = {"significant": [], "unsignificant": []}
 
-    # (two time series per match - one each for home & away)
+    # two time series per match - one each for home & away
     for match_id, match_df in large_df_in.groupby(['match_id']):
         x_mat = x_mat_in >> sift(X.match_id == match_id)
         x_mat = x_mat.drop(columns=["match_id"])
@@ -71,7 +83,6 @@ def run_arima_models(large_df_in, x_mat_in, feature_set_in):
                         match_id=str(match_id))
 
         print(match_id)
-        # print(coefficients)
 
     json_filename = "arima_" + str(feature_set_in) + ".json"
     export_coefficients(coefficients, json_filename)
@@ -90,6 +101,5 @@ if __name__ == "__main__":
                                  stage_2_df.home_red,
                                  stage_2_df.away_red)
 
-    # unlike linear regression...CANNOT include any constants in the x_matrix!
     # run model with 1st feature set
     run_arima_models(stage_2_df, x_mat, 1)
