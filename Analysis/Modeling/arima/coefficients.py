@@ -5,9 +5,10 @@ import pandas as pd
 from dplython import DplyFrame
 import matplotlib
 matplotlib.use('TkAgg')
-from ggplot import (ggplot, geom_density, scale_color_brewer,
+from ggplot import (ggplot, scale_color_brewer, geom_histogram,
                     scale_x_continuous, facet_wrap, labs, ggtitle,
-                    theme_gray, aes) # noqa: E402
+                    scale_y_continuous, theme_gray,
+                    aes, geom_boxplot) # noqa: E402
 
 
 # data frame processing; creating a master df for faceting plots
@@ -33,20 +34,28 @@ for feature in ["home_goal", "away_goal", "home_yellow", "away_yellow",
 
 master_df = pd.concat(dfs_to_concat)
 
-# data
-p = ggplot(aes(x='value', color='variable'), data=master_df)
-p += geom_density(fill=True)
-p += scale_x_continuous(limits=(-25, 25))
-p += scale_color_brewer(type='qual', palette=3)
-p += ggtitle("sarimax coefficient magnitude distributions")
-p += facet_wrap("feature", ncol=3)
-
-# visual
+# visuals
 t = theme_gray()
 t._rcParams['font.size'] = 10
 t._rcParams['font.family'] = 'monospace'
+
+# histogram
+p = ggplot(aes(x='value', fill='variable', color='variable'),
+           data=master_df)
+p += geom_histogram(bins=25, alpha=0.5)
+p += scale_x_continuous(limits=(-25, 25))
+p += ggtitle("sarimax coefficient magnitude distribution")
+p += facet_wrap("feature", ncol=3, scales="free")
+p += labs(x=" ", y=" ")
 p += t
+p.save("arima_1/" + "histogram.png")
 
-p.save("arima_1/" + "faceted.png")
-
-# TODO how to create faceted plot of each feature
+# boxplot
+p = ggplot(aes(x='variable', y='value'), data=master_df)
+p += geom_boxplot()
+p += scale_y_continuous(limits=(-25, 25))
+p += ggtitle("sarimax coefficient magnitudes")
+p += facet_wrap("feature", ncol=3)
+p += labs(x=" ", y=" ")
+p += t
+p.save("arima_1/" + "boxplot.png")
