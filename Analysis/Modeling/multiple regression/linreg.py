@@ -184,6 +184,25 @@ predict_on_match_id(lm=lm,
                     filename_out="model7.png",
                     x_var_list=x_var_list)
 
+# MLR MODEL #10: NO INTERACTIONS, ONLY STAGE 2
+stage_2_df = longform_df >> sift(X.stage_2_ind == 1)
+stage_2_df = stage_2_df.reset_index(drop=True)
+y_var = stage_2_df["shorthand_search_vol"]
+x_var_list = ["ones", "competitive_idx", "home_goal", "away_goal",
+              "home_yellow", "away_yellow", "home_red", "away_red",
+              "cum_total_goals", "cum_goal_diff", "man_down", "upset"]
+x_vars = stage_2_df[x_var_list]
+lm = sm.OLS(y_var, x_vars).fit()
+with open('model10.txt', 'w') as f:
+    print >> f, lm.summary()
+predict_on_match_id(lm=lm,
+                    longform_df=stage_2_df,
+                    date="2015-08-16",
+                    match_id="chelsea2015-08-16",
+                    opponent_match_id="manchester_city2015-08-16",
+                    model_no="linreg_model10",
+                    filename_out="model10.png",
+                    x_var_list=x_var_list)
 
 # MLR MODEL #8: REFINING MODEL 7, ONLY STAGE 2
 # let's play with a few more features...
@@ -218,17 +237,24 @@ stage_2_df['holiday_wk'] = ((stage_2_df['match_wk'].astype(int) > 17) &
 
 stage_2_df['1_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 1, 1, 0)
 stage_2_df['2_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 2, 1, 0)
-stage_2_df['3_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 3, 1, 0)
-stage_2_df['4_total_goal'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 4, 1, 0)
-stage_2_df['5+_total_goals'] = np.where(stage_2_df['cum_total_goals'].astype(int) >= 5, 1, 0)
+stage_2_df['3_total_goals'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 3, 1, 0)
+stage_2_df['4_total_goals'] = np.where(stage_2_df['cum_total_goals'].astype(int) == 4, 1, 0)
+stage_2_df['5+_total_goals'] = np.where(stage_2_df['cum_total_goals'].astype(int) > 4, 1, 0)
+
+stage_2_df['cum_goal_diff = 1'] = np.where(stage_2_df['cum_goal_diff'].astype(int) == 1, 1, 0)
+stage_2_df['cum_goal_diff = 2'] = np.where(stage_2_df['cum_goal_diff'].astype(int) == 2, 1, 0)
+stage_2_df['cum_goal_diff >= 3'] = np.where(stage_2_df['cum_goal_diff'].astype(int) > 2, 1, 0)
+
+stage_2_df["goal_and_diff = 1"] = stage_2_df['goal'].astype(int) * stage_2_df['cum_goal_diff = 1'].astype(int)
+stage_2_df["goal_and_diff = 2"] = stage_2_df['goal'].astype(int) * stage_2_df['cum_goal_diff = 2'].astype(int)
+stage_2_df["goal_and_diff >= 3"] = stage_2_df['goal'].astype(int) * stage_2_df['cum_goal_diff >= 3'].astype(int)
 
 y_var = stage_2_df["shorthand_search_vol"]
 x_var_list = ["ones", "first_3_wks", "last_3_wks", "holiday_wk",
               "competitive_idx", "second_30", "final_30",
-              "goal", "goal_and_second_30",
-              "goal_and_final_30", "yellow", "red", "man_down", "upset",
-              "1_total_goal", "2_total_goal", "3_total_goal",
-              "4_total_goal", "5+_total_goals"]
+              "home_goal", "away_goal", "home_yellow", "cum_goal_diff = 1",
+              "cum_goal_diff = 2", "cum_goal_diff >= 3",
+              "man_down", "upset", "5+_total_goals"]
 x_vars = stage_2_df[x_var_list]
 lm = sm.OLS(y_var, x_vars).fit()
 with open('model8.txt', 'w') as f:
