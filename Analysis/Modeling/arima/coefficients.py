@@ -34,10 +34,6 @@ for feature in ["home_goal", "away_goal", "home_yellow", "away_yellow",
 
 master_df = pd.concat(dfs_to_concat)
 
-# visuals
-t = theme_gray()
-t._rcParams['font.size'] = 10
-t._rcParams['font.family'] = 'monospace'
 
 # histogram
 p = ggplot(aes(x='value', fill='variable', color='variable'),
@@ -47,6 +43,12 @@ p += scale_x_continuous(limits=(-25, 25))
 p += ggtitle("sarimax coefficient magnitude distribution")
 p += facet_wrap("feature", ncol=3, scales="free")
 p += labs(x=" ", y=" ")
+
+# visuals
+t = theme_gray()
+t._rcParams['font.size'] = 10
+t._rcParams['font.family'] = 'monospace'
+
 p += t
 p.save("arima_1/" + "histogram.png")
 
@@ -57,5 +59,11 @@ p += scale_y_continuous(limits=(-25, 25))
 p += ggtitle("sarimax coefficient magnitudes")
 p += facet_wrap("feature", ncol=3)
 p += labs(x=" ", y=" ")
+
+# visuals
+t = theme_gray()
+t._rcParams['font.size'] = 10
+t._rcParams['font.family'] = 'monospace'
+
 p += t
 p.save("arima_1/" + "boxplot.png")
