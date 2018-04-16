@@ -3,8 +3,8 @@
 Dep. Variable:     shorthand_search_vol   R-squared:                       0.451
 Model:                              OLS   Adj. R-squared:                  0.451
 Method:                   Least Squares   F-statistic:                 1.098e+04
-Date:                  Sat, 14 Apr 2018   Prob (F-statistic):               0.00
-Time:                          17:48:09   Log-Likelihood:            -2.2988e+05
+Date:                  Sun, 15 Apr 2018   Prob (F-statistic):               0.00
+Time:                          20:25:16   Log-Likelihood:            -2.2988e+05
 No. Observations:                 53548   AIC:                         4.598e+05
 Df Residuals:                     53543   BIC:                         4.598e+05
 Df Model:                             4                                         

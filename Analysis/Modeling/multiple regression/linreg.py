@@ -275,7 +275,7 @@ predict_on_match_id(lm=lm,
                     date="2015-12-28",
                     match_id="everton2015-12-28",
                     opponent_match_id="stoke_city2015-12-28",
-                    model_no="0linreg_model8",
+                    model_no="0linreg_model6",
                     filename_out="model8_1.png",
                     x_var_list=x_var_list)
 
@@ -284,7 +284,7 @@ predict_on_match_id(lm=lm,
                     date="2016-01-23",
                     match_id="liverpool2016-01-23",
                     opponent_match_id="norwich_city2016-01-23",
-                    model_no="0linreg_model8",
+                    model_no="0linreg_model6",
                     filename_out="model8_2.png",
                     x_var_list=x_var_list)
 
@@ -293,7 +293,7 @@ predict_on_match_id(lm=lm,
                     date="2016-02-14",
                     match_id="arsenal2016-02-14",
                     opponent_match_id="leicester_city2016-02-14",
-                    model_no="0linreg_model8",
+                    model_no="0linreg_model6",
                     filename_out="model8_3.png",
                     x_var_list=x_var_list)
 
@@ -302,7 +302,7 @@ predict_on_match_id(lm=lm,
                     date="2016-03-05",
                     match_id="tottenham2016-03-05",
                     opponent_match_id="arsenal2016-03-05",
-                    model_no="0linreg_model8",
+                    model_no="0linreg_model6",
                     filename_out="model8_4.png",
                     x_var_list=x_var_list)
 
@@ -311,7 +311,7 @@ predict_on_match_id(lm=lm,
                     date="2016-05-02",
                     match_id="chelsea2016-05-02",
                     opponent_match_id="tottenham2016-05-02",
-                    model_no="0linreg_model8",
+                    model_no="0linreg_model6",
                     filename_out="model8_5.png",
                     x_var_list=x_var_list)
 
