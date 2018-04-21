@@ -10,18 +10,15 @@ Understanding how various match events in the English Premier League and affect 
 * [plot.ly / dash](https://plot.ly/dash/) - Create interactive data visualization website 
 * [ggplot](https://github.com/yhat/ggpy) - Batch plotting search volume activity & model predictions
 * [statsmodels](http://www.statsmodels.org/dev/index.html) - Statistical modeling toolkit in Python
+* [pandas](https://pandas.pydata.org) - Data Science 101 for Python
+* [dplyr](https://github.com/dodger487/dplython) - A Python port of R's dplyr library.
 
-## White Paper
+## Paper
 
 Coming Soon.
 
 ## Search Volume Data: Google Trends
 ![Sample Matchweek](Analysis/Modeling/plots/matchweek1.png)
-
-## Interactive Visualizations
-Interactive Coming Soon.
-Sample: Chelsea / Swansea, 08.08.2015
-![Sample Match](Images/charting.png)
 
 ## Authors
 
