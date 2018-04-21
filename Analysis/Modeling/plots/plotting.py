@@ -28,7 +28,7 @@ t = theme_gray()
 t._rcParams['font.size'] = 8
 t._rcParams['font.family'] = 'monospace' # Legend font size
 p += t
-p.save('matchweek1.png', width=8, height=8)
+p.save('matchweek1.png', width=16, height=8)
 
 # plotting an individual match (w/ match events!)
 p = ggplot(aes(x='date_time',

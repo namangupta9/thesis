@@ -67,3 +67,11 @@ t._rcParams['font.family'] = 'monospace'
 
 p += t
 p.save("arima_1/" + "boxplot.png")
+
+for feature in ["home_goal", "away_goal", "home_yellow", "away_yellow",
+                "home_red", "away_red"]:
+
+    feature_sig_df = master_df.loc[(master_df['feature'] == feature) &
+                                   (master_df['variable'] == "significant")]
+
+    print feature_sig_df.dropna().describe()

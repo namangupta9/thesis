@@ -26,7 +26,7 @@ def plot_matches(df_in, date, filename_out, x_var='date_time',
                    y=y_var,
                    group="match_id",
                    color="match_id"), data=df_in)
-    p += geom_line()
+    p += geom_line(size=2)
 
     # informative
     p += labs(x="time (gmt)", y="search volume (scaled to 100)")

@@ -71,7 +71,7 @@ def plot_predictions(date_times, actual_values, predictions,
                    y='search_vol',
                    group="match_id",
                    color="match_id"), data=plotting_df)
-    p += geom_line()
+    p += geom_line(size=2)
 
     # informative
     p += labs(x="time (gmt)", y="search volume (scaled to 100)")
