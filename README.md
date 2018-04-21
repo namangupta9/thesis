@@ -1,7 +1,5 @@
 # Senior Thesis - EPL Analytics
 
-Understanding how various match events in the English Premier League and affect normalized search activity, and applying the conclusions to effectively "surge price" certain advertisements before, during, and after matches.
-
 ## Tools
 
 * [pytrends](https://github.com/GeneralMills/pytrends) - Gather normalized search activity data
